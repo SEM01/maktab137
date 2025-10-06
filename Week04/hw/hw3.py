@@ -1,3 +1,6 @@
+'''
+تابعی بنویسید که یک لیست بگیرد و عنصری که بیشترین تکرار را دارد برگرداند
+'''
 def max_repeat(list):
     result = dict((i, list.count(i)) for i in list)
     max_element = max(result, key=result.get)

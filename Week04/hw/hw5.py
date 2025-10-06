@@ -1,3 +1,10 @@
+'''
+دکوراتوری که ورودی یک تابع را در فایل
+input.txt
+و خروجی تابع را در فایل
+output.txt
+بنویسد
+'''
 def file_io(input_file, output_file):
     def wrapper(func):
         def write(*args):

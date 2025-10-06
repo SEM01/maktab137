@@ -1,3 +1,6 @@
+'''
+برنامه ای که با اسنفاده از تابع بازگشتی عناصر یک لیست تو در تو را جمع کند
+'''
 def nested_sum(number_list):
     sum = 0
     for item in range(len(number_list)):

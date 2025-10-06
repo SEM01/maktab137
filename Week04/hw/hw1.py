@@ -1,5 +1,11 @@
 from datetime import datetime
 
+
+'''
+دکوراتوری بنویسید که تابع مورد نظر را فقط در محدوده زمانی مشخصی اجرا کند
+'''
+
+
 hour = datetime.now().hour
 
 def restrict_hours(start, end):

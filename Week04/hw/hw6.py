@@ -1,3 +1,6 @@
+'''
+تعداد تناقض های دو رشته 
+'''
 def str_diffrence(string1, string2):
     count = 0
     for letter in range(len(string1)):
