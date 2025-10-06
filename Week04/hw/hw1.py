@@ -4,9 +4,9 @@ hour = datetime.now().hour
 
 def restrict_hours(start, end):
     def wrapper(func):
-        def check_time(*args):
+        def check_time():
             if start<hour<end:
-                func(*args)
+                func()
             else:
                 print("Not Allowed....")
         return check_time
