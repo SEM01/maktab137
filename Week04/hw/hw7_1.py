@@ -3,7 +3,7 @@
 ورودی ها به صورت 
 positional only
 '''
-def add(a,b):
+def add(a,b, /):
     return a+b
 
-
+add(5,6)

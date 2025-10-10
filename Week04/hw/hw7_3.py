@@ -5,7 +5,7 @@ positional only
 keyword only 
 دریافت کند و نتیجه را برگرداند
 '''
-def calculator(number1, number2, operation):
+def calculator(number1, number2,/,*, operation):
     if operation == "+":
         return f'{number1} + {number2} = {number1+number2}' 
     elif operation == "-":
