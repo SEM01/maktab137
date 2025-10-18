@@ -12,8 +12,14 @@ class Member:
     def show_borrowed(self):
         print(self.borrowed_book)
 
+    def return_book(self, book: str):
+        self.book = book
+        self.borrowed_book.remove(book)
+
 
 a = Member("Ali", 1, "ali@a.com")
 a.borrow_book("binavayan")
-# a.borrow_book("100 sal tanhayie")
+a.borrow_book("100 sal tanhayie")
+a.show_borrowed()
+a.return_book("binavayan")
 a.show_borrowed()
