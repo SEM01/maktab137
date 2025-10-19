@@ -45,30 +45,33 @@ class Member:
             f"Member name:{self.name}\nMemberID:{self.member_id}\nMember Email:{self.emial}"
         )
         print("List of Borrowed Books".center(50, "-"))
+        print("No.\tBook Name")
         for i, book in enumerate(self.borrowed_book, start=1):
-            print(f"{i}. |{book}|")
-
+            print(f"{i}.\t|{book}|")
+    
+    def member_info(self):
+        return self.name, self.member_id
 class StudentMember(Member):
     pass
 
 class TeacherMember(Member):
     pass
 
+       
 
-        
-
-class Library(Book):
+class Library():
+    members = []
     def __init__(self, name: str):
-        super().__init__(self.title, self.author)
         self.name = name
         self.books = []
-        self.members = []
+        self.member = Member
 
     def add_book(self, book):
-        self.books.append({"Title": self.title})
-    
-    def add_member(self, member):
+        #TODO: self.books.append({"Title": self.title})
         pass
+    @staticmethod
+    def add_member(self):
+        Library.members.append(Member.member_info(self))
 
     def borrow_book(self,member_id, isbn):
         pass
@@ -77,7 +80,11 @@ class Library(Book):
         pass
 
     def show_all_members(self):
-        pass
+        print("List Of Members".center(50, "-"))
+        print("No.\tName\tMemebrID")
+        for i, (name, ID) in enumerate(self.members, start=1):
+            print(f"{i}.\t{name}\t{ID}") 
+        
 
     def show_all_books(self):
         print(self.books)
@@ -100,6 +107,11 @@ b = Book("a","b",12)
 b.mark_as_borrowed()
 # a.display_info()
 f = Member("f",1,"a@a.com")
+g= Member("g",1,"a@a.com")
 f.borrow_book(a)
 f.borrow_book(b)
 f.show_info()
+l = Library("meli")
+l.add_member(f)
+l.add_member(g)
+l.show_all_members()
