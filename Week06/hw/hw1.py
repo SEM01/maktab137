@@ -9,7 +9,7 @@ class Book:
 
     def mark_as_borrowed(self):
         self.is_borrowed = True
-        
+        return self.is_borrowed
 
     def mark_as_returend(self):
         self.is_borrowed = False
@@ -21,6 +21,8 @@ class Book:
         return self.title
     def book_info(self):
         return self.title, self.author, self.isbn
+    def book_isbn(self):
+        return self.isbn
 
 
 class Member:
@@ -33,7 +35,7 @@ class Member:
             
     @staticmethod   
     def borrow_book(self):
-        if Book.mark_as_borrowed==True:
+        if Book.mark_as_borrowed(self)==True:
             print("Book is Borrowed")
         else:
             Member.borrowed_book.append(Book.book(self))
@@ -41,7 +43,7 @@ class Member:
     def return_book(self, book: str):
         self.book = book
         self.borrowed_book.remove(book)
-
+    
     def show_info(self):
         print(
             f"Member name:{self.name}\nMemberID:{self.member_id}\nMember Email:{self.emial}"
@@ -64,19 +66,26 @@ class TeacherMember(Member):
 class Library():
     members = []
     books = []
+    borrow_book_lst = []
+
     def __init__(self, name: str):
         self.name = name
         self.book = Book
         self.member = Member
+
     @staticmethod
     def add_book(self):
         Library.books.append(Book.book_info(self))
+
     @staticmethod
     def add_member(self):
         Library.members.append(Member.member_info(self))
 
-    def borrow_book(self,member_id, isbn):
-        pass
+    
+    def borrow_book(self):
+        if Book.mark_as_borrowed() == True:
+            Library.borrow_book_lst.append(Book.book(self))
+            print(Library.borrow_book_lst)
 
     def return_book(self, member_id, isbn):
         pass
@@ -93,6 +102,7 @@ class Library():
         print("No.\tTitle\t\tAuthor\t\tISBN")
         for i,(title,author,isbn) in enumerate(self.books, start=1):
             print(f"{i}.\t{title}\t\t{author}\t\t{isbn}")
+        print(f"Total Books: {Book.total_books}")
 
 # a = Member("Ali", 1, "ali@a.com")
 # a.borrow_book("binavayan")
@@ -108,17 +118,20 @@ class Library():
 
 a = Book("Book1","Author1",123)
 b = Book("Book2","Author2",456)
-b.mark_as_borrowed()
-# a.display_info()
+
 f = Member("Mem1",1,"a@a.com")
 g = Member("Mem2",2,"b@b.com")
-f.borrow_book(a)
-f.borrow_book(b)
 f.show_info()
-l = Library("meli")
-l.add_member(f)
-l.add_member(g)
-l.show_all_members()
-l.add_book(a)
-l.add_book(b)
-l.show_all_books()
+
+a.display_info()
+a.display_info()
+
+
+# l = Library("meli")
+# l.add_member(f)
+# l.add_member(g)
+# l.show_all_members()
+# l.add_book(a)
+# l.add_book(b)
+# l.show_all_books()
+# l.borrow_book()
