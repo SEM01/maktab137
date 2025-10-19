@@ -19,6 +19,8 @@ class Book:
 
     def book(self):
         return self.title
+    def book_info(self):
+        return self.title, self.author, self.isbn
 
 
 class Member:
@@ -61,14 +63,14 @@ class TeacherMember(Member):
 
 class Library():
     members = []
+    books = []
     def __init__(self, name: str):
         self.name = name
-        self.books = []
+        self.book = Book
         self.member = Member
-
-    def add_book(self, book):
-        #TODO: self.books.append({"Title": self.title})
-        pass
+    @staticmethod
+    def add_book(self):
+        Library.books.append(Book.book_info(self))
     @staticmethod
     def add_member(self):
         Library.members.append(Member.member_info(self))
@@ -80,15 +82,17 @@ class Library():
         pass
 
     def show_all_members(self):
-        print("List Of Members".center(50, "-"))
+        print("List of Members".center(50, "."))
         print("No.\tName\tMemebrID")
         for i, (name, ID) in enumerate(self.members, start=1):
             print(f"{i}.\t{name}\t{ID}") 
         
 
     def show_all_books(self):
-        print(self.books)
-
+        print("List of Books".center(50,"."))
+        print("No.\tTitle\t\tAuthor\t\tISBN")
+        for i,(title,author,isbn) in enumerate(self.books, start=1):
+            print(f"{i}.\t{title}\t\t{author}\t\t{isbn}")
 
 # a = Member("Ali", 1, "ali@a.com")
 # a.borrow_book("binavayan")
@@ -102,12 +106,12 @@ class Library():
 # b.add_book("Tehran")
 # b.show_all_books()
 
-a = Book("Sovashon","Simin",123)
-b = Book("a","b",12)
+a = Book("Book1","Author1",123)
+b = Book("Book2","Author2",456)
 b.mark_as_borrowed()
 # a.display_info()
-f = Member("f",1,"a@a.com")
-g= Member("g",1,"a@a.com")
+f = Member("Mem1",1,"a@a.com")
+g = Member("Mem2",2,"b@b.com")
 f.borrow_book(a)
 f.borrow_book(b)
 f.show_info()
@@ -115,3 +119,6 @@ l = Library("meli")
 l.add_member(f)
 l.add_member(g)
 l.show_all_members()
+l.add_book(a)
+l.add_book(b)
+l.show_all_books()
