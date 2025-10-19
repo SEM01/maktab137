@@ -1,14 +1,40 @@
+class Book:
+    total_books =0
+    def __init__(self, title: str, author: str, isbn: int):
+        self.title = title
+        self.author = author
+        self.isbn = isbn
+        self.is_borrowed = False
+        Book.total_books +=1
+
+    def mark_as_borrowed(self):
+        self.is_borrowed = True
+        
+
+    def mark_as_returend(self):
+        self.is_borrowed = False
+
+    def display_info(self):
+        print(f"Title: {self.title}\nAuthor: {self.author}\nISBN: {self.isbn}\nIs Borrowed: {self.is_borrowed}")
+
+    def book(self):
+        return self.title
+
+
 class Member:
+    borrowed_book = []
     def __init__(self, name: str, member_id: int, email: str):
         self.name = name
         self.member_id = member_id
         self.emial = email
-        self.borrowed_book = []
-        print(self.borrowed_book)
-
-    def borrow_book(self, book: str):
-        self.book = book
-        self.borrowed_book.append(book)
+        self.book=Book
+            
+    @staticmethod   
+    def borrow_book(self):
+        if Book.mark_as_borrowed==True:
+            print("Book is Borrowed")
+        else:
+            Member.borrowed_book.append(Book.book(self))
 
     def return_book(self, book: str):
         self.book = book
@@ -16,30 +42,20 @@ class Member:
 
     def show_info(self):
         print(
-            f"Member name:{self.name} MemberID:{self.member_id} Member Email:{self.emial}"
+            f"Member name:{self.name}\nMemberID:{self.member_id}\nMember Email:{self.emial}"
         )
         print("List of Borrowed Books".center(50, "-"))
         for i, book in enumerate(self.borrowed_book, start=1):
             print(f"{i}. |{book}|")
 
+class StudentMember(Member):
+    pass
 
-class Book:
-    def __init__(self, title: str, author: str, isbn: int):
-        self.title = title
-        self.author = author
-        self.isbn = isbn
-        self.total_books += 1
-        self.is_borrows = False
+class TeacherMember(Member):
+    pass
 
-    def mark_as_borrowed(self):
-        pass
 
-    def mark_as_returend(self):
-        pass
-
-    def display_info(self):
-        pass
-
+        
 
 class Library(Book):
     def __init__(self, name: str):
@@ -48,8 +64,20 @@ class Library(Book):
         self.books = []
         self.members = []
 
-    def add_book(self):
+    def add_book(self, book):
         self.books.append({"Title": self.title})
+    
+    def add_member(self, member):
+        pass
+
+    def borrow_book(self,member_id, isbn):
+        pass
+
+    def return_book(self, member_id, isbn):
+        pass
+
+    def show_all_members(self):
+        pass
 
     def show_all_books(self):
         print(self.books)
@@ -62,7 +90,16 @@ class Library(Book):
 # a.return_book("binavayan")
 # a.show_info()
 
-b = Library("Meli")
-b.add_book("Iran")
-b.add_book("Tehran")
-b.show_all_books()
+# b = Library("Meli")
+# b.add_book("Iran")
+# b.add_book("Tehran")
+# b.show_all_books()
+
+a = Book("Sovashon","Simin",123)
+b = Book("a","b",12)
+b.mark_as_borrowed()
+# a.display_info()
+f = Member("f",1,"a@a.com")
+f.borrow_book(a)
+f.borrow_book(b)
+f.show_info()
