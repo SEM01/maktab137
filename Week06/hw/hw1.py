@@ -1,3 +1,6 @@
+import pickle
+
+
 class Book:
     total_books = 0
 
@@ -46,13 +49,13 @@ class Member:
 
     def __init__(self, name: str, member_id: int, email: str):
         self.name = name
-        self.__member_id = member_id
+        self.member_id = member_id
         self.emial = email
         self.book = Book
 
     @staticmethod
-    def borrow_book(self):
-        if self.is_borrowed == True:
+    def borrow_book(is_borrowed):
+        if is_borrowed == True:
             print("Book is Borrowed")
 
     def return_book(self, book: str):
@@ -66,14 +69,13 @@ class Member:
         print("List of Borrowed Books".center(50, "-"))
         print("No.\tBook Name")
         for i, book in enumerate(self.borrowed_book, start=1):
-            print(f"{i}.\t|{book}|")
+            print(f"{i}.\t|{book[0]}|\t\t{book[1]}")
 
     def member_info(self):
         return self.name, self.member_id
 
-    @property
-    def member_id(self):
-        return self.__member_id
+    def member_no(self):
+        return self.member_id
 
 
 class StudentMember(Member):
@@ -82,13 +84,16 @@ class StudentMember(Member):
 
     @staticmethod
     def borrow_book(self):
-        if self.is_borrowed == True:
-            print("Book is Borrowed")
-        else:
-            if len(Member.borrowed_book) < 3:
-                Member.borrowed_book.append(Book.book(self))
+        if self.title not in Member.borrowed_book:
+            if self.is_borrowed == True:
+                print("Book is Borrowed")
             else:
-                print("3 Book Limit Reached")
+                if len(Member.borrowed_book) < 3:
+                    Member.borrowed_book.append(self.title)
+                else:
+                    print("3 Book Limit Reached")
+        else:
+            print(f"'{self.title}' already Exist in the list")
 
 
 class TeacherMember(Member):
@@ -97,13 +102,23 @@ class TeacherMember(Member):
 
     @staticmethod
     def borrow_book(self):
-        if self.is_borrowed == True:
-            print("Book is Borrowed")
-        else:
-            if len(Member.borrowed_book) < 5:
-                Member.borrowed_book.append(Book.book(self))
+
+        if self.title not in Member.borrowed_book:
+            if self.is_borrowed == True:
+                print("Book is Borrowed")
             else:
-                print("3 Book Limit Reached")
+                if len(Member.borrowed_book) < 5:
+                    Member.borrowed_book.append(
+                        (
+                            (Book.book(self)),
+                            (TeacherMember.member_info(Member.member_info(self))),
+                        )
+                    )
+
+                else:
+                    print("5 Book Limit Reached")
+        else:
+            print(f"'{self.title}' already Exist in the list")
 
 
 class Library:
@@ -119,10 +134,14 @@ class Library:
     @staticmethod
     def add_book(self):
         Library.books.append(Book.book_info(self))
+        with open("library_data.pkl", "ab") as file:
+            pickle.dump(f"Add Book: {Book.book_info(self)}", file)
 
     @staticmethod
     def add_member(self):
         Library.members.append(Member.member_info(self))
+        with open("library_data.pkl", "ab") as file:
+            pickle.dump(f"Add Member: {Member.member_info(self)}", file)
 
     @staticmethod
     def borrow_book(self):
@@ -134,8 +153,9 @@ class Library:
             print(f"'{Book.book(self)}' already Exist in the Borrow List")
         print(Library.borrow_book_lst)
 
-    def return_book(self, member_id, isbn):
-        pass
+    @staticmethod
+    def return_book(self):
+        self.is_borrowed == False
 
     def show_all_members(self):
         print("List of Members".center(50, "."))
@@ -159,3 +179,29 @@ d = Book("Book4", "Author2", 4)
 
 k = StudentMember("std1", 1, "std1@1.com")
 t = TeacherMember("tcr1", 110, "tcr1@2.com")
+t.borrow_book(a)
+t.show_info()
+l = Library("Meli")
+l.add_book(a)
+l.add_book(b)
+# l.add_member(k)
+
+
+# def read(filename):
+#     result = []
+#     try:
+#         with open(filename, "rb") as file1:
+#             while True:
+#                 try:
+#                     a = pickle.load(file1)
+#                     result.append(a)
+#                 except EOFError:
+#                     break
+#         return result
+#     except FileNotFoundError:
+#         return []
+
+
+# all_data = read("library_data.pkl")
+# for i, item in enumerate(all_data, 1):
+#     print(i, item)
