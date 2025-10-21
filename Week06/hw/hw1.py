@@ -149,15 +149,27 @@ class Library:
 
     @staticmethod
     def borrow_book(member_id, isbn):
-        Library.borrow_book_lst.append(
-            (Member.member_no(member_id), Book.book_isbn(isbn))
-        )
+        if member_id in [x[1] for x in Library.members]:
+            if isbn in [x[2] for x in Library.books]:
+                Library.borrow_book_lst.append(
+                    (Member.member_no(member_id), Book.book_isbn(isbn))
+                )
+            else:
+                print(f"'{isbn}' is no valid")
+        else:
+            print(f"'{member_id}' is not member")
 
     @staticmethod
     def return_book(member_id, isbn):
-        Library.return_book_lst.append(
-            (Member.member_no(member_id), Book.book_isbn(isbn))
-        )
+        if member_id in [x[1] for x in Library.members]:
+            if isbn in [x[2] for x in Library.books]:
+                Library.return_book_lst.append(
+                    (Member.member_no(member_id), Book.book_isbn(isbn))
+                )
+            else:
+                print(f"'{isbn}' is no valid")
+        else:
+            print(f"'{member_id}' is not valid")
 
     def show_all_members(self):
         print("List of Members".center(50, "."))
@@ -186,8 +198,7 @@ s = StudentMember("std1", 1, "std1@1.com")
 t = TeacherMember("tcr1", 110, "tcr1@2.com")
 
 l = Library("Meli")
-l.borrow_book(1, 1)
-l.return_book(1, 1)
+
 # def read(filename):
 #     result = []
 #     try:
