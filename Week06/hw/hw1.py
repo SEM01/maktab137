@@ -11,12 +11,6 @@ class Book:
         self.is_borrowed = False
         Book.total_books += 1
 
-    def isbn_info(self):
-        return self.isbn
-
-    def borrow_check(self):
-        return self.is_borrowed
-
     def mark_as_borrowed(self):
         self.is_borrowed = True
 
@@ -27,6 +21,9 @@ class Book:
         print(
             f"Title: {self.title}\nAuthor: {self.author}\nISBN: {self.isbn}\nIs Borrowed: {self.is_borrowed}"
         )
+
+    def borrow_check(self):
+        return self.is_borrowed
 
     def book(self):
         return self.title
@@ -158,6 +155,11 @@ class Library:
                 print(f"'{isbn}' is no valid")
         else:
             print(f"'{member_id}' is not member")
+        with open("library_data.pkl", "ab") as file:
+            pickle.dump(
+                f"Book Borrowed: {Member.member_no(member_id), Book.book_isbn(isbn)}",
+                file,
+            )
 
     @staticmethod
     def return_book(member_id, isbn):
@@ -185,6 +187,43 @@ class Library:
             print(f"{i}.\t{title}\t\t{author}\t\t{isbn}")
         print(f"Total Books: {Book.total_books}")
 
+    @staticmethod
+    def search_member_by_name(name):
+        if name in [x[0] for x in Library.members]:
+            print(f"'{name}' Find.")
+        else:
+            print(f"'{name}' not Found")
+
+    @staticmethod
+    def search_book_by_title(name):
+        if name in [x[0] for x in Library.books]:
+            print(f"'{name}' Find.")
+        else:
+            print(f"'{name}' not Found")
+
+    @staticmethod
+    def book_report():
+        print(f"Borrowed: {len(Library.borrow_book_lst)}")
+        print(f"Available: {(len(Library.books))-(len(Library.borrow_book_lst))}")
+
+    @staticmethod
+    def read_report(filename):
+        result = []
+        try:
+            with open(filename, "rb") as file1:
+                while True:
+                    try:
+                        a = pickle.load(file1)
+                        result.append(a)
+
+                    except EOFError:
+                        break
+                for i, item in enumerate(result, 1):
+                    print(i, item)
+            return result
+        except FileNotFoundError:
+            print("File not Fond")
+
 
 a = Book("Book1", "Author1", 1)
 b = Book("Book2", "Author2", 2)
@@ -198,22 +237,3 @@ s = StudentMember("std1", 1, "std1@1.com")
 t = TeacherMember("tcr1", 110, "tcr1@2.com")
 
 l = Library("Meli")
-
-# def read(filename):
-#     result = []
-#     try:
-#         with open(filename, "rb") as file1:
-#             while True:
-#                 try:
-#                     a = pickle.load(file1)
-#                     result.append(a)
-#                 except EOFError:
-#                     break
-#         return result
-#     except FileNotFoundError:
-#         return []
-
-
-# all_data = read("library_data.pkl")
-# for i, item in enumerate(all_data, 1):
-#     print(i, item)
