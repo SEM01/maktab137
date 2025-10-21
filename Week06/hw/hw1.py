@@ -7,7 +7,7 @@ class Book:
     def __init__(self, title: str, author: str, isbn: int):
         self.title = title
         self.author = author
-        self.__isbn = isbn
+        self.isbn = isbn
         self.__is_borrowed = False
         Book.total_books += 1
 
@@ -15,9 +15,8 @@ class Book:
     def is_borrowed(self):
         return self.__is_borrowed
 
-    @property
-    def isbn(self):
-        return self.__isbn
+    def isbn_info(self):
+        return self.isbn
 
     @is_borrowed.setter
     def is_borrowed(self, state):
@@ -45,18 +44,18 @@ class Book:
 
 
 class Member:
-    borrowed_book = []
+
+    total_members = 0
 
     def __init__(self, name: str, member_id: int, email: str):
         self.name = name
         self.member_id = member_id
         self.emial = email
         self.book = Book
+        Member.total_members += 1
 
-    @staticmethod
-    def borrow_book(is_borrowed):
-        if is_borrowed == True:
-            print("Book is Borrowed")
+    def borrow_book(self):
+        borrowed_book = []
 
     def return_book(self, book: str):
         self.book = book
@@ -67,7 +66,7 @@ class Member:
             f"Member name:{self.name}\nMemberID:{self.member_id}\nMember Email:{self.emial}"
         )
         print("List of Borrowed Books".center(50, "-"))
-        print("No.\tBook Name")
+        print("No.\tBook Name\tAuthor")
         for i, book in enumerate(self.borrowed_book, start=1):
             print(f"{i}.\t|{book[0]}|\t\t{book[1]}")
 
@@ -79,46 +78,39 @@ class Member:
 
 
 class StudentMember(Member):
+    borrowed_book = []
+
     def __init__(self, name, member_id, email):
         super().__init__(name, member_id, email)
 
     @staticmethod
-    def borrow_book(self):
-        if self.title not in Member.borrowed_book:
-            if self.is_borrowed == True:
-                print("Book is Borrowed")
-            else:
-                if len(Member.borrowed_book) < 3:
-                    Member.borrowed_book.append(self.title)
-                else:
-                    print("3 Book Limit Reached")
+    def borrow_book(book):
+        borrowed_book = []
+        if Book.book_info(book) in StudentMember.borrowed_book:
+            print(f"'{Book.book_info(book)[0]}' already Borrowed!")
         else:
-            print(f"'{self.title}' already Exist in the list")
+            if len(StudentMember.borrowed_book) < 3:
+                StudentMember.borrowed_book.append(Book.book_info(book))
+            else:
+                print("5 Book Limit Reached")
 
 
 class TeacherMember(Member):
+    borrowed_book = []
+
     def __init__(self, name, member_id, email):
         super().__init__(name, member_id, email)
 
     @staticmethod
-    def borrow_book(self):
+    def borrow_book(book):
 
-        if self.title not in Member.borrowed_book:
-            if self.is_borrowed == True:
-                print("Book is Borrowed")
-            else:
-                if len(Member.borrowed_book) < 5:
-                    Member.borrowed_book.append(
-                        (
-                            (Book.book(self)),
-                            (TeacherMember.member_info(Member.member_info(self))),
-                        )
-                    )
-
-                else:
-                    print("5 Book Limit Reached")
+        if Book.book_info(book) in TeacherMember.borrowed_book:
+            print(f"'{Book.book_info(book)[0]}' already Borrowed!")
         else:
-            print(f"'{self.title}' already Exist in the list")
+            if len(TeacherMember.borrowed_book) < 5:
+                TeacherMember.borrowed_book.append(Book.book_info(book))
+            else:
+                print("5 Book Limit Reached")
 
 
 class Library:
@@ -132,26 +124,34 @@ class Library:
         self.member = Member
 
     @staticmethod
-    def add_book(self):
-        Library.books.append(Book.book_info(self))
-        with open("library_data.pkl", "ab") as file:
-            pickle.dump(f"Add Book: {Book.book_info(self)}", file)
-
-    @staticmethod
-    def add_member(self):
-        Library.members.append(Member.member_info(self))
-        with open("library_data.pkl", "ab") as file:
-            pickle.dump(f"Add Member: {Member.member_info(self)}", file)
-
-    @staticmethod
-    def borrow_book(self):
-        if Book.book(self) not in Library.borrow_book_lst:
-            if self.is_borrowed == True:
-                Library.borrow_book_lst.append([Book.book(self)])
-
+    def add_book(book):
+        if Book.book_info(book) in Library.books:
+            print(f"'{Book.book_info(book)[0]}' Exist")
         else:
-            print(f"'{Book.book(self)}' already Exist in the Borrow List")
-        print(Library.borrow_book_lst)
+            Library.books.append(Book.book_info(book))
+        with open("library_data.pkl", "ab") as file:
+            pickle.dump(f"Add Book: {Book.book_info(book)}", file)
+
+    @staticmethod
+    def add_member(member):
+        if Member.member_info(member) in Library.members:
+            print(f"'{Member.member_info(member)[0]}' Exist!")
+        else:
+            Library.members.append(Member.member_info(member))
+        with open("library_data.pkl", "ab") as file:
+            pickle.dump(f"Add Member: {Member.member_info(member)}", file)
+
+    @staticmethod
+    def borrow_book(member_id, isbn):
+        # if Book.isbn_info(isbn) not in Library.borrow_book_lst:
+        #     Library.borrow_book_lst.append(
+        #         [Book.book(isbn), Member.member_no(member_id)]
+        #     )
+
+        # else:
+        #     print(f"'{Book.book(isbn)}' already Exist in the Borrow List")
+        # print(Library.borrow_book_lst)
+        return member_id, isbn
 
     @staticmethod
     def return_book(self):
@@ -162,6 +162,7 @@ class Library:
         print("No.\tName\tMemebrID")
         for i, (name, ID) in enumerate(self.members, start=1):
             print(f"{i}.\t{name}\t{ID}")
+        print(f"Total Members: {Member.total_members}")
 
     def show_all_books(self):
         print("List of Books".center(50, "."))
@@ -173,18 +174,26 @@ class Library:
 
 a = Book("Book1", "Author1", 1)
 b = Book("Book2", "Author2", 2)
-c = Book("Book3", "Author2", 3)
-d = Book("Book4", "Author2", 4)
+c = Book("Book3", "Author3", 3)
+d = Book("Book4", "Author4", 4)
+e = Book("Book5", "Author5", 5)
+f = Book("Book6", "Author6", 6)
 
 
 k = StudentMember("std1", 1, "std1@1.com")
 t = TeacherMember("tcr1", 110, "tcr1@2.com")
-t.borrow_book(a)
-t.show_info()
+
 l = Library("Meli")
-l.add_book(a)
-l.add_book(b)
-# l.add_member(k)
+l.borrow_book(a, k)
+t.borrow_book(a)
+k.borrow_book(b)
+t.borrow_book(c)
+t.borrow_book(d)
+t.borrow_book(e)
+
+
+t.show_info()
+k.show_info()
 
 
 # def read(filename):
