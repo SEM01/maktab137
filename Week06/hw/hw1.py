@@ -8,29 +8,24 @@ class Book:
         self.title = title
         self.author = author
         self.isbn = isbn
-        self.__is_borrowed = False
+        self.is_borrowed = False
         Book.total_books += 1
-
-    @property
-    def is_borrowed(self):
-        return self.__is_borrowed
 
     def isbn_info(self):
         return self.isbn
 
-    @is_borrowed.setter
-    def is_borrowed(self, state):
-        self.__is_borrowed = state
+    def borrow_check(self):
+        return self.is_borrowed
 
     def mark_as_borrowed(self):
-        self.__is_borrowed = True
+        self.is_borrowed = True
 
     def mark_as_returend(self):
-        self.__is_borrowed = False
+        self.is_borrowed = False
 
     def display_info(self):
         print(
-            f"Title: {self.title}\nAuthor: {self.author}\nISBN: {self.isbn}\nIs Borrowed: {self.__is_borrowed}"
+            f"Title: {self.title}\nAuthor: {self.author}\nISBN: {self.isbn}\nIs Borrowed: {self.is_borrowed}"
         )
 
     def book(self):
@@ -39,8 +34,9 @@ class Book:
     def book_info(self):
         return self.title, self.author, self.isbn
 
-    def book_isbn(self):
-        return self.isbn
+    @staticmethod
+    def book_isbn(isbn):
+        return isbn
 
 
 class Member:
@@ -54,12 +50,14 @@ class Member:
         self.book = Book
         Member.total_members += 1
 
-    def borrow_book(self):
-        borrowed_book = []
+    @staticmethod
+    def borrow_book(book):
+        if Book.mark_as_borrowed == True:
+            print(f"{Book.book(book)} is borrowed")
 
-    def return_book(self, book: str):
-        self.book = book
-        self.borrowed_book.remove(book)
+    @staticmethod
+    def return_book(book: str):
+        pass
 
     def show_info(self):
         print(
@@ -73,8 +71,9 @@ class Member:
     def member_info(self):
         return self.name, self.member_id
 
-    def member_no(self):
-        return self.member_id
+    @staticmethod
+    def member_no(id):
+        return id
 
 
 class StudentMember(Member):
@@ -85,14 +84,17 @@ class StudentMember(Member):
 
     @staticmethod
     def borrow_book(book):
-        borrowed_book = []
-        if Book.book_info(book) in StudentMember.borrowed_book:
-            print(f"'{Book.book_info(book)[0]}' already Borrowed!")
+        if Book.borrow_check(book) == True:
+            print(f"{Book.book(book)} is borrowed")
         else:
             if len(StudentMember.borrowed_book) < 3:
                 StudentMember.borrowed_book.append(Book.book_info(book))
             else:
-                print("5 Book Limit Reached")
+                print("3 Book Limit Reached")
+
+    @staticmethod
+    def return_book(book):
+        TeacherMember.borrowed_book.remove(Book.book_info(book))
 
 
 class TeacherMember(Member):
@@ -103,20 +105,24 @@ class TeacherMember(Member):
 
     @staticmethod
     def borrow_book(book):
-
-        if Book.book_info(book) in TeacherMember.borrowed_book:
-            print(f"'{Book.book_info(book)[0]}' already Borrowed!")
+        if Book.borrow_check(book) == True:
+            print(f"{Book.book(book)} is borrowed")
         else:
             if len(TeacherMember.borrowed_book) < 5:
                 TeacherMember.borrowed_book.append(Book.book_info(book))
             else:
                 print("5 Book Limit Reached")
 
+    @staticmethod
+    def return_book(book):
+        TeacherMember.borrowed_book.remove(Book.book_info(book))
+
 
 class Library:
     members = []
     books = []
     borrow_book_lst = []
+    return_book_lst = []
 
     def __init__(self, name: str):
         self.name = name
@@ -143,19 +149,15 @@ class Library:
 
     @staticmethod
     def borrow_book(member_id, isbn):
-        # if Book.isbn_info(isbn) not in Library.borrow_book_lst:
-        #     Library.borrow_book_lst.append(
-        #         [Book.book(isbn), Member.member_no(member_id)]
-        #     )
-
-        # else:
-        #     print(f"'{Book.book(isbn)}' already Exist in the Borrow List")
-        # print(Library.borrow_book_lst)
-        return member_id, isbn
+        Library.borrow_book_lst.append(
+            (Member.member_no(member_id), Book.book_isbn(isbn))
+        )
 
     @staticmethod
-    def return_book(self):
-        self.is_borrowed == False
+    def return_book(member_id, isbn):
+        Library.return_book_lst.append(
+            (Member.member_no(member_id), Book.book_isbn(isbn))
+        )
 
     def show_all_members(self):
         print("List of Members".center(50, "."))
@@ -180,22 +182,12 @@ e = Book("Book5", "Author5", 5)
 f = Book("Book6", "Author6", 6)
 
 
-k = StudentMember("std1", 1, "std1@1.com")
+s = StudentMember("std1", 1, "std1@1.com")
 t = TeacherMember("tcr1", 110, "tcr1@2.com")
 
 l = Library("Meli")
-l.borrow_book(a, k)
-t.borrow_book(a)
-k.borrow_book(b)
-t.borrow_book(c)
-t.borrow_book(d)
-t.borrow_book(e)
-
-
-t.show_info()
-k.show_info()
-
-
+l.borrow_book(1, 1)
+l.return_book(1, 1)
 # def read(filename):
 #     result = []
 #     try:
