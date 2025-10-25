@@ -1,26 +1,74 @@
+from argon2 import PasswordHasher
+import time
+import json
+
+
 class User:
     Admin = []
     Passenger = []
+    user_id = 0
 
-    def __init__(
-        self,
-        user_id: int,
-        user_name,
-        password,
-        first_name: str,
-        last_name: str,
-        tel,
-        birth_date,
-        account_create_date,
-    ):
-        self.user_id = user_id
-        self.user_name = user_name
-        self.password = password
-        self.first_name = first_name
-        self.last_name = last_name
-        self.tel = tel
-        self.birth_date = birth_date
+    def __init__(self, account_create_date=time.ctime()):
+        self.user_name = input("User Name: ")
+        self.password = PasswordHasher().hash(input("Password: "))
+        self.first_name = input("First Name: ")
+        self.last_name = input("Last Name: ")
+        self.phone = input("Phone Number: ")
+        self.birth_date = input("Birth date: ")
         self.account_create_date = account_create_date
+        self.role = None
+
+    def __eq__(self, other):
+        if self.user_name == other.user_name:
+            print("User name Exist")
+
+    def to_dict(self):
+
+        return {
+            "user ID": User.user_id,
+            "user name": self.user_name,
+            "password": self.password,
+            "first name": self.first_name,
+            "last name": self.last_name,
+            "phone": self.phone,
+            "birth date": self.birth_date,
+            "account create date": self.account_create_date,
+            "role": self.role,
+        }
+
+    # def add_passenger(self):
+    #     if any(value["user name"] == self.user_name for value in User.Passenger):
+    #         print("User name exist")
+    #     else:
+    #         User.user_id += 1
+    #         self.role = "passenger"
+    #         User.Passenger.append(User.to_dict(self))
+
+    #     print(User.Passenger)
+
+    def add_admin(self):
+        User.user_id += 1000
+        self.role = "admin"
+        User.Admin.append(User.to_dict(self))
+        print(User.Admin)
+
+    # def add_user(self):
+
+    #     self.user_id = User.user_id + 1
+    #     if self.role == "admin":
+    #         if self.user_name not in User.Admin:
+    #             User.Admin.append(self.user_name)
+    #         else:
+    #             print("User name Exist")
+    #     elif self.role == "passenger":
+    #         if self.user_name not in User.Passenger:
+    #             if self.user_name not in User.Passenger:
+    #                 User.Passenger.append(self.user_name)
+    #             else:
+    #                 print("User name Exist")
+    #     else:
+    #         print("Register Failed.")
+    #     print(self.user_id)
 
 
 class Travel:
@@ -67,3 +115,9 @@ class Payment:
         self.payment_status = payment_status
         self.user_id = User
         self.travel_id = Travel
+
+
+a = User()
+# a.add_passenger()
+b = User()
+# b.add_passenger()
