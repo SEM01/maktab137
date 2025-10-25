@@ -202,7 +202,7 @@ class Library:
             print(f"'{name}' not Found")
 
     @staticmethod
-    def book_report():
+    def library_report():
         print(f"Borrowed: {len(Library.borrow_book_lst)}")
         print(f"Available: {(len(Library.books))-(len(Library.borrow_book_lst))}")
 
