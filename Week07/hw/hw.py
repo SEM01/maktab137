@@ -19,6 +19,8 @@ class User:
         self.role = None
 
     def __eq__(self, other):
+        print(self.user_name)
+        print(other.username)
         if self.user_name == other.user_name:
             print("User name Exist")
 
