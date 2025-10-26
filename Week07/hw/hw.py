@@ -1,12 +1,11 @@
 from argon2 import PasswordHasher
 import time
-import json
 
 
 class User:
-    Admin = []
-    Passenger = []
+    users = []
     user_id = 0
+    
 
     def __init__(self, account_create_date=time.ctime()):
         self.user_name = input("User Name: ")
@@ -18,13 +17,7 @@ class User:
         self.account_create_date = account_create_date
         self.role = None
 
-    def __eq__(self, other):
-        print(self.user_name)
-        print(other.username)
-        if self.user_name == other.user_name:
-            print("User name Exist")
-
-    def to_dict(self):
+    def user_dict(self):
 
         return {
             "user ID": User.user_id,
@@ -38,63 +31,97 @@ class User:
             "role": self.role,
         }
 
-    # def add_passenger(self):
-    #     if any(value["user name"] == self.user_name for value in User.Passenger):
-    #         print("User name exist")
-    #     else:
-    #         User.user_id += 1
-    #         self.role = "passenger"
-    #         User.Passenger.append(User.to_dict(self))
+    def user_role(self):
+        return self.role
+    
+    def user(self):
+       return f"{self.user_name}"
 
-    #     print(User.Passenger)
+    def add_user(self):
+        if list(filter(lambda user: user["user name"] == self.user_name, User.users)):
+            print("User name exist")
+        else:
+            User.user_id += 1
+            self.role = "passenger"
+            User.users.append(User.user_dict(self))
+            print("User Created")
 
     def add_admin(self):
-        User.user_id += 1000
-        self.role = "admin"
-        User.Admin.append(User.to_dict(self))
-        print(User.Admin)
+        user_admin = list(filter(lambda user: user["user name"] == self.user_name, User.users))[0]
+        user_admin["role"] = "admin"
+        user_admin["user ID"] = User.user_id + 1000
 
-    # def add_user(self):
+        # User.users.update(User.user_dict(self))
+        print(f"{self.user_name} change to Admin")
+ 
+    def login(self):
+        print("Site Login".center(50, "*"))
+        user_login = list(filter(lambda user: user["user name"] == User.user(self), User.users))[0]
+        if input("User name: ") == user_login.get("user name"):
+            try:
+                PasswordHasher().verify(user_login.get("password"), input("Password: "))
+                print("Login Succsefully")
+                return True
+            except:
+                print("Login Failed")
+                return False
+        else:
+            print("User not found")
 
-    #     self.user_id = User.user_id + 1
-    #     if self.role == "admin":
-    #         if self.user_name not in User.Admin:
-    #             User.Admin.append(self.user_name)
-    #         else:
-    #             print("User name Exist")
-    #     elif self.role == "passenger":
-    #         if self.user_name not in User.Passenger:
-    #             if self.user_name not in User.Passenger:
-    #                 User.Passenger.append(self.user_name)
-    #             else:
-    #                 print("User name Exist")
-    #     else:
-    #         print("Register Failed.")
-    #     print(self.user_id)
+    def search(self):
+        if User.login(self) == True:
+            self.user_travel_origin = input("Origin: ")
+            self.user_travel_destination = input("Destination: ")
+            self.user_travel_date = input("Date: ")
+
+    def show_user_lst(self):
+        print(User.users)
 
 
 class Travel:
-    def __init__(
-        self,
-        travel_id: int,
-        travel_origin: str,
-        travel_destination: str,
-        travel_time,
-        travel_duration,
-        travel_capacity,
-        availabel_seats,
-        price,
-        travel_status,
-    ):
-        self.travel_id = travel_id
-        self.travel_origin = travel_origin
-        self.travel_destination = travel_destination
-        self.travel_time = travel_time
-        self.travel_duration = travel_duration
-        self.travel_capacity = travel_capacity
-        self.available_seats = availabel_seats
-        self.price = price
-        self.status = travel_status
+    travel_id = 0
+    travel_lst = []
+    User.login_status = classmethod(User.login)
+
+    def __init__(self):
+        self.travel_origin = input("Origin: ")
+        self.travel_destination = input("Destination: ")
+        self.travel_time = input("Travel Time: ")
+        self.travel_duration = input("Travel Duration: ")
+        self.travel_capacity = input("Travel Capacity: ")
+        self.available_seats = input("Number of Available Seats: ")
+        self.price = input("Price: ")
+        self.status = input("Travel Status: ")
+        print(User.login_status)
+      
+
+    def travel_dict(self):
+        return {
+            "ID": Travel.travel_id,
+            "origin": self.travel_origin,
+            "destination": self.travel_destination,
+            "time": self.travel_time,
+            "duration": self.travel_duration,
+            "capacity": self.travel_capacity,
+            "seats": self.available_seats,
+            "price": self.price,
+            "status": self.status,
+        }
+    @staticmethod
+    def add_travel():
+        print("ok")
+        if User.login == True:
+            print("1")
+            if User.user_role == "admin":
+                Travel.travel_id += 1
+                Travel.travel_lst.append(Travel.travel_dict())
+                print("ok")
+                # print(f"Travel {self.travel_origin} to {self.travel_destination} added")
+            else:
+                print("Access Denied!")
+
+    def show_tarvel_info(self):
+        print(Travel.travel_lst)
 
 
 class Ticket:
@@ -119,7 +146,9 @@ class Payment:
         self.travel_id = Travel
 
 
-a = User()
-# a.add_passenger()
 b = User()
-# b.add_passenger()
+b.add_user()
+# b.add_admin()
+b.login()
+t=Travel()
+t.add_travel()
