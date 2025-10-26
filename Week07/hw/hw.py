@@ -5,6 +5,7 @@ import time
 class User:
     users = []
     user_id = 0
+    user_auth = False
     
 
     def __init__(self, account_create_date=time.ctime()):
@@ -16,6 +17,7 @@ class User:
         self.birth_date = input("Birth date: ")
         self.account_create_date = account_create_date
         self.role = None
+        
 
     def user_dict(self):
 
@@ -32,7 +34,10 @@ class User:
         }
 
     def user_role(self):
-        return self.role
+        if self.role == "admin":
+            return True
+        else:
+            return False
     
     def user(self):
        return f"{self.user_name}"
@@ -61,10 +66,10 @@ class User:
             try:
                 PasswordHasher().verify(user_login.get("password"), input("Password: "))
                 print("Login Succsefully")
-                return True
+                User.user_auth = True
             except:
                 print("Login Failed")
-                return False
+                User.user_auth =False
         else:
             print("User not found")
 
@@ -81,7 +86,6 @@ class User:
 class Travel:
     travel_id = 0
     travel_lst = []
-    User.login_status = classmethod(User.login)
 
     def __init__(self):
         self.travel_origin = input("Origin: ")
@@ -92,7 +96,7 @@ class Travel:
         self.available_seats = input("Number of Available Seats: ")
         self.price = input("Price: ")
         self.status = input("Travel Status: ")
-        print(User.login_status)
+        
       
 
     def travel_dict(self):
@@ -107,18 +111,20 @@ class Travel:
             "price": self.price,
             "status": self.status,
         }
-    @staticmethod
-    def add_travel():
-        print("ok")
-        if User.login == True:
-            print("1")
-            if User.user_role == "admin":
+    
+    def add_travel(self):
+        
+        if User.user_auth == True:
+            
+            if User.user_role:
                 Travel.travel_id += 1
-                Travel.travel_lst.append(Travel.travel_dict())
-                print("ok")
+                Travel.travel_lst.append(Travel.travel_dict(self))
+                
                 # print(f"Travel {self.travel_origin} to {self.travel_destination} added")
             else:
                 print("Access Denied!")
+        else:
+            print("Access Denied")
 
     def show_tarvel_info(self):
         print(Travel.travel_lst)
@@ -148,7 +154,8 @@ class Payment:
 
 b = User()
 b.add_user()
-# b.add_admin()
+b.add_admin()
 b.login()
 t=Travel()
 t.add_travel()
+t.show_tarvel_info()
