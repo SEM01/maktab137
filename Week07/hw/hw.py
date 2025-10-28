@@ -6,7 +6,6 @@ from operator import itemgetter
 
 
 class User:
-    user_id = 1
     user_auth = False
     
     def __init__(self, account_create_date=time.ctime()):
