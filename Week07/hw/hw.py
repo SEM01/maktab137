@@ -2,6 +2,7 @@ from argon2 import PasswordHasher
 import time
 import json
 from tabulate import tabulate
+from operator import itemgetter
 
 
 class User:
@@ -81,7 +82,7 @@ class User:
         print(f"{user_info["user name"]} {user_info["last name"]} change to Admin")
  
     def login(self):
-        print("Site Login".center(50, "*"))
+        print("Login".center(50, "*"))
         try:
             with open("Users.json", "r") as users_file:
                     data = json.load(users_file)
@@ -98,10 +99,24 @@ class User:
             print("First Create Account")
         
     def search(self):
+        print("Ticket Search".center(50,"*"))
         if User.user_auth == True:
-            self.user_travel_origin = input("Origin: ")
-            self.user_travel_destination = input("Destination: ")
-            self.user_travel_date = input("Date: ")
+            self.user_travel_origin = input("Origin: ").lower()
+            self.user_travel_destination = input("Destination: ").lower()
+            self.user_travel_date = input("Date: ").lower()
+            try:
+                with open("Travel.json", "r") as travel_file:
+                    data = json.load(travel_file)
+                    filtered_data = [item for item in data if item["origin"] == self.user_travel_origin and item["destination"]==self.user_travel_destination and item["date"]>= self.user_travel_date ]
+                    sorted_data = sorted(filtered_data, key=itemgetter("date", "time", "price"))
+                    if filtered_data:
+                        print(tabulate(sorted_data,headers="keys"))
+                    if filtered_data ==[]:
+                        print("No result")
+            except FileNotFoundError:
+                print("Sorry, No Flight availabe")
+        else:
+            print("Access Denied, Please Login First")
 
     def show_user_lst(self):
         with open("Users.json", "r") as user_file:
@@ -114,9 +129,10 @@ class User:
 
 
 class Travel:
-    travel_id = 0
+    
 
     def __init__(self):
+        self.travel_id = 0
         self.travel_origin = input("Origin: ")
         self.travel_destination = input("Destination: ")
         self.travel_time = input("Travel Time: ")
@@ -125,6 +141,7 @@ class Travel:
         self.available_seats = input("Number of Available Seats: ")
         self.price = input("Price: ")
         self.status = input("Travel Status: ")
+        self.date = input("Date: ")
         
       
 
@@ -139,6 +156,7 @@ class Travel:
             "seats": self.available_seats,
             "price": self.price,
             "status": self.status,
+            "Date": self.date
         }
     def check_id(self,data):
         last_id =1
@@ -165,9 +183,7 @@ class Travel:
                     with open("Travel.json", "w") as travel_json:
                         Travel.travel_id = 1
                         data = ([Travel.travel_dict(self)])
-                        json.dump(data, travel_json, indent=2)
-                
-                
+                        json.dump(data, travel_json, indent=2)     
             else:
                 print("Access Denied!")
         else:
@@ -200,8 +216,9 @@ class Payment:
 
 
 a=User()
-# a.add_user()
-a.add_admin()
-# a.login()
-# a.show_user_lst()
-# a.add_admin()
+a.login()
+# a.search()
+
+b = Travel()
+b.add_travel()
+
