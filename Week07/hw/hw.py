@@ -1,10 +1,11 @@
 from argon2 import PasswordHasher
 import time
+import json
 
 
 class User:
-    users = []
-    user_id = 0
+    
+    user_id = 1
     user_auth = False
     
 
@@ -16,7 +17,7 @@ class User:
         self.phone = input("Phone Number: ")
         self.birth_date = input("Birth date: ")
         self.account_create_date = account_create_date
-        self.role = None
+        self.role = "passenger"
         
 
     def user_dict(self):
@@ -41,38 +42,66 @@ class User:
     
     def user(self):
        return f"{self.user_name}"
+    
+    def id_counter(self,data):
+        last_id =1
+        if data:
+            last_id = max(item.get("user ID",0) for item in data)
+        User.user_id = last_id + 1
 
     def add_user(self):
-        if list(filter(lambda user: user["user name"] == self.user_name, User.users)):
-            print("User name exist")
-        else:
-            User.user_id += 1
-            self.role = "passenger"
-            User.users.append(User.user_dict(self))
-            print("User Created")
-
+        try:
+            with open("Users.json", "r") as users_file:
+                try:
+                    data = json.load(users_file)
+                    user_name_check = False
+                    for item in data:
+                        for value in item['user name']:
+                            if value == self.user_name:
+                                user_name_check = True
+                                print("User Name Exist")
+                                break
+                        if user_name_check:
+                            break
+                    if not user_name_check:
+                        User.id_counter(self,data)
+                        print("User Created")
+                        data.append(User.user_dict(self))
+                        with open("Users.json", "w") as users_file:
+                            json.dump(data, users_file, indent=2)
+                except json.JSONDecodeError:
+                    data = []
+        except FileNotFoundError:
+                with open("Users.json", "w") as users_file:
+                    print("User Created")
+                    data = ([User.user_dict(self)])
+                    User.id_counter(self,data)
+                    json.dump(data, users_file, indent=2)
+        
     def add_admin(self):
-        user_admin = list(filter(lambda user: user["user name"] == self.user_name, User.users))[0]
-        user_admin["role"] = "admin"
-        user_admin["user ID"] = User.user_id + 1000
-
-        # User.users.update(User.user_dict(self))
+        with open("Users.json", "r") as users_file:
+            data = json.load(users_file)
+        for item in data:
+            if item["user name"] == self.user_name:
+                item["role"] = "admin"
+        with open("Users.json", "w") as users_file:
+            json.dump(data, users_file, indent=2)
         print(f"{self.user_name} change to Admin")
  
     def login(self):
         print("Site Login".center(50, "*"))
-        user_login = list(filter(lambda user: user["user name"] == User.user(self), User.users))[0]
-        if input("User name: ") == user_login.get("user name"):
-            try:
-                PasswordHasher().verify(user_login.get("password"), input("Password: "))
-                print("Login Succsefully")
-                User.user_auth = True
-            except:
-                print("Login Failed")
-                User.user_auth =False
-        else:
-            print("User not found")
-
+        try:
+            with open("Users.json", "r") as users_file:
+                    data = json.load(users_file)
+                    user_input = input("User name: ")
+                    if user_input in [d["user name"] for d in data]:
+                        user_info = [d for d in data if d["user name"]==user_input][0]
+                        if PasswordHasher().verify(user_info.get("password"), input("Password: ")):
+                           User.user_auth = True 
+                          
+        except FileNotFoundError:
+            print("First Create Account")
+        
     def search(self):
         if User.login(self) == True:
             self.user_travel_origin = input("Origin: ")
@@ -85,7 +114,6 @@ class User:
 
 class Travel:
     travel_id = 0
-    travel_lst = []
 
     def __init__(self):
         self.travel_origin = input("Origin: ")
@@ -111,22 +139,40 @@ class Travel:
             "price": self.price,
             "status": self.status,
         }
-    
-    def add_travel(self):
+    def check_id(self,data):
+        last_id =1
+        if data:
+            last_id = max(item.get("ID",0) for item in data)
+        Travel.travel_id = last_id+ 1
         
-        if User.user_auth == True:
-            
+    
+    def add_travel(self):     
+        if User.user_auth == True:     
             if User.user_role:
-                Travel.travel_id += 1
-                Travel.travel_lst.append(Travel.travel_dict(self))
+                print(f"Travel {self.travel_origin} to {self.travel_destination} added")
+                try:
+                    with open("Travel.json", "r") as travel_json:
+                        try:
+                            data = json.load(travel_json)
+                        except json.JSONDecodeError:
+                           data = []
+                    Travel.check_id(self,data)
+                    data.append(Travel.travel_dict(self))
+                    with open("Travel.json", "w") as travel_json:
+                        json.dump(data, travel_json, indent=2)
+                except FileNotFoundError:
+                    with open("Travel.json", "w") as travel_json:
+                        Travel.travel_id = 1
+                        data = ([Travel.travel_dict(self)])
+                        json.dump(data, travel_json, indent=2)
                 
-                # print(f"Travel {self.travel_origin} to {self.travel_destination} added")
+                
             else:
                 print("Access Denied!")
         else:
             print("Access Denied")
 
-    def show_tarvel_info(self):
+    def show_travel_info(self):
         print(Travel.travel_lst)
 
 
@@ -152,10 +198,10 @@ class Payment:
         self.travel_id = Travel
 
 
-b = User()
-b.add_user()
-b.add_admin()
-b.login()
-t=Travel()
-t.add_travel()
-t.show_tarvel_info()
+# b = User()
+# b.add_user()
+# b.add_admin()
+c = User()
+c.add_user()
+c.login()
+print(c.user_auth)
