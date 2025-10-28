@@ -1,14 +1,13 @@
 from argon2 import PasswordHasher
 import time
 import json
+from tabulate import tabulate
 
 
 class User:
-    
     user_id = 1
     user_auth = False
     
-
     def __init__(self, account_create_date=time.ctime()):
         self.user_name = input("User Name: ")
         self.password = PasswordHasher().hash(input("Password: "))
@@ -21,7 +20,6 @@ class User:
         
 
     def user_dict(self):
-
         return {
             "user ID": User.user_id,
             "user name": self.user_name,
@@ -54,16 +52,9 @@ class User:
             with open("Users.json", "r") as users_file:
                 try:
                     data = json.load(users_file)
-                    user_name_check = False
-                    for item in data:
-                        for value in item['user name']:
-                            if value == self.user_name:
-                                user_name_check = True
-                                print("User Name Exist")
-                                break
-                        if user_name_check:
-                            break
-                    if not user_name_check:
+                    if self.user_name in [d['user name'] for d in data]:
+                        print("User Name Exist")
+                    else:
                         User.id_counter(self,data)
                         print("User Created")
                         data.append(User.user_dict(self))
@@ -81,12 +72,13 @@ class User:
     def add_admin(self):
         with open("Users.json", "r") as users_file:
             data = json.load(users_file)
-        for item in data:
-            if item["user name"] == self.user_name:
-                item["role"] = "admin"
+            user_input = input("User ID: ")
+            if int(user_input) in [d['user ID'] for d in data]:
+                user_info = [d for d in data if d["user ID"] == int(user_input)][0]
+                user_info["role"]="admin"
         with open("Users.json", "w") as users_file:
             json.dump(data, users_file, indent=2)
-        print(f"{self.user_name} change to Admin")
+        print(f"{user_info["user name"]} {user_info["last name"]} change to Admin")
  
     def login(self):
         print("Site Login".center(50, "*"))
@@ -96,20 +88,29 @@ class User:
                     user_input = input("User name: ")
                     if user_input in [d["user name"] for d in data]:
                         user_info = [d for d in data if d["user name"]==user_input][0]
-                        if PasswordHasher().verify(user_info.get("password"), input("Password: ")):
-                           User.user_auth = True 
-                          
+                        try:
+                            PasswordHasher().verify(user_info.get("password"), input("Password: "))
+                            User.user_auth = True
+                            print("Login Sucessfully") 
+                        except Exception:
+                            print("Login Failed")               
         except FileNotFoundError:
             print("First Create Account")
         
     def search(self):
-        if User.login(self) == True:
+        if User.user_auth == True:
             self.user_travel_origin = input("Origin: ")
             self.user_travel_destination = input("Destination: ")
             self.user_travel_date = input("Date: ")
 
     def show_user_lst(self):
-        print(User.users)
+        with open("Users.json", "r") as user_file:
+            data = json.load(user_file)
+            final = []
+            for item in data:
+                filter_data = {k:v for k,v in item.items() if k not in {"password"}}
+                final.append(filter_data)
+            print(tabulate(final,headers="keys"))
 
 
 class Travel:
@@ -198,10 +199,9 @@ class Payment:
         self.travel_id = Travel
 
 
-# b = User()
-# b.add_user()
-# b.add_admin()
-c = User()
-c.add_user()
-c.login()
-print(c.user_auth)
+a=User()
+# a.add_user()
+a.add_admin()
+# a.login()
+# a.show_user_lst()
+# a.add_admin()
