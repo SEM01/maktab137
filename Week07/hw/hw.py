@@ -199,20 +199,31 @@ class Travel:
 
 class Ticket:
     def __init__(self):
+        self.ticket_id = 1
         self.seat_no = 0
         self.status = None
-        self.create_date =0
+        self.create_date =time.ctime()
         self.user_id = None
         self.tarvel_id = None
     
     def ticket_dict(self):
         return {
-        # "ticket ID":Ticket.ticket_id,
+        "ticket ID":Ticket.ticket_id,
         # "Name":User.user_full_name,
         # "From":Travel.origin,
         # "To":Travel.destination,
-        "Status":self.status
+        "Status":self.status,
+        "Reservation Date":self.create_date
         }
+    
+    def check_id(self,data):
+        last_id =1
+        if data:
+            last_id = max(item.get("ticket ID",0) for item in data)
+        Ticket.ticket_id = last_id+ 1
+
+    def ticket_status(self):
+        return self.status
 
     def reservation(self):
         try:
@@ -222,37 +233,75 @@ class Ticket:
             filter_data = [item for item in data if item["ID"]==travel_id][0]
             if filter_data["status"]=="available":
                 if filter_data["seats"]>1 :
-                    self.status="Reserved"
-                    print("Your Ticket Reserved")
-                    ticket_data = []
-                    ticket_data.append(Ticket.ticket_dict(self))
-                    with open("Ticket.json" , "w") as ticket_file:
-                        json.dump(ticket_data, ticket_file, indent=2)
+                    try:
+                        with open("Ticket.json", "r") as ticket_file:
+                            try:
+                                data = json.load(ticket_file)
+                            except json.JSONDecodeError:
+                                data = []
+                        self.status="Reserved"
+                        Ticket.check_id(self,data)
+                        print("Your Ticket Reserved")
+                        data.append(Ticket.ticket_dict(self))
+                        with open("Ticket.json" , "w") as ticket_file:
+                            json.dump(data, ticket_file, indent=2)
+                    except FileNotFoundError:
+                        with open("Ticket.json", "w") as ticket_file:
+                            Ticket.ticket_id = 1
+                            self.status="Reserved"
+                            print("Your Ticket Reserved")
+                            ticket_data = ([Ticket.ticket_dict(self)])
+                            json.dump(ticket_data, ticket_file, indent=2)
                 else:
                     print("Capacity is Full")
             else:
                 print("Flight not available")
         except FileNotFoundError:
-            with open("Ticket.json", "w") as ticket_file:
-                ticket_data = ([Ticket.ticket_dict(self)])
-                json.dump(ticket_data, ticket_file, indent=2)
+            print("No Flight Exist")
+                
+        
 
 class Payment:
-    def __init__(
-        self, payment_id: int, total_price: int, payment_time, payment_status: str
-    ):
-        self.payment_id = payment_id
-        self.total_price = total_price
-        self.payment_time = payment_time
-        self.payment_status = payment_status
-        self.user_id = User
-        self.travel_id = Travel
+    def __init__(self):
+        self.payment_id = 1
+        self.total_price = None
+        self.payment_time = time.ctime()
+        self.payment_status = None
+        self.user_id = None
+        self.travel_id = None
+
+    def payment_dict(self):
+        return {
+            "ticket ID": Ticket.ticket_id,
+            "Ticket price":self.total_price,
+            "Status":self.payment_status,
+        }
+    
+    def pay(self):
+        try:
+            with open("Ticket.json","r") as ticket_file:
+                ticket_data = json.load(ticket_file)
+            ticket_id = int(input("Ticket ID: "))
+            filter_data = [item for item in ticket_data if item["ticket ID"]==ticket_id][0]
+            if filter_data["Status"] == "Reserved":
+                pay = int(input("pay? (1.yes 2.no)"))
+                if pay == 1:
+                    print("Thanks for your purchase")
+                    filter_data["Status"] = "Sold"
+                else:
+                    print("Cancel")
+            else:
+                print(f"ticket with ID: -{ticket_id}- not exist for sale")
+            with open("Ticket.json","w") as ticket_file:
+                json.dump(ticket_data, ticket_file, indent=2)
+        except FileNotFoundError:
+            print("No Ticket Exist")   
+                
 
 
 # a=User()
 # a.login()
-b = Ticket()
-b.reservation()
-
-
-
+# b = Ticket()
+# b.reservation()
+a=Payment()
+a.pay()
