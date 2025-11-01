@@ -128,8 +128,6 @@ class User:
 
 
 class Travel:
-    
-
     def __init__(self):
         self.travel_id = 0
         self.travel_origin = input("Origin: ")
@@ -140,9 +138,7 @@ class Travel:
         self.available_seats = int(input("Number of Available Seats: "))
         self.price = input("Price: ")
         self.status = input("Travel Status: ")
-        self.date = input("Date: ")
-        
-      
+        self.date = input("Date: ") 
 
     def travel_dict(self):
         return {
@@ -196,6 +192,40 @@ class Travel:
     def show_travel_info(self):
         print(Travel.travel_lst)
 
+    def edit_travel(self):
+        if User.user_auth == True:
+            if User.user_role:
+                print("Edit Flight Info".center(50,'*'))
+                with open("Travel.json", "r") as travel_file:
+                    data = json.load(travel_file)
+                    user_input = input("Travel ID for Edit: ")
+                    if int(user_input) in [d['ID'] for d in data]:
+                        travel_info = [d for d in data if d['ID'] == int(user_input)][0]
+                        travel_info['origin']=input("Origin: ")
+                        travel_info['destination']=input("destination: ")
+                        travel_info['time']=input("time: ")
+                        travel_info['duration']=input("dusration:")
+                        travel_info['capacity']=input("capacity: ")
+                        travel_info['seats']=input("seats:")
+                        travel_info['price']=input("price: ")
+                        travel_info['status']=input("status: ")
+                with open("Travel.json", "w") as tarvel_file:
+                    json.dump(data,tarvel_file, indent=2)
+                print(f"Flight ID:{travel_info["ID"]} Edited")
+
+    def cancel_travel(self):
+        if User.user_auth == True:
+            if User.user_role:
+                print("Flight Canceling".center(50,"*"))
+                with open("Travel.json", "r") as travel_file:
+                    data = json.load(travel_file)
+                    user_input = input("Travel ID for Canceling: ")
+                    if int(user_input) in [d['ID'] for d in data]:
+                        travel_info = [d for d in data if d['ID'] == int(user_input)][0]
+                        travel_info['status']="Cancel"
+                with open("Travel.json", "w") as travel_file:
+                    json.dump(data, travel_file, indent=2)
+                print(f"Travel ID: {travel_info['ID']} Canceled")
 
 class Ticket:
     def __init__(self):
@@ -299,9 +329,13 @@ class Payment:
                 
 
 
-# a=User()
-# a.login()
+a=User()
+a.login()
+b =Travel()
+# b.edit_travel()
+b.cancel_travel()
+
 # b = Ticket()
 # b.reservation()
-a=Payment()
-a.pay()
+# a=Payment()
+# a.pay()
