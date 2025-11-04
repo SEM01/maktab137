@@ -5,6 +5,8 @@ from tabulate import tabulate
 from operator import itemgetter
 
 
+
+'''/---------------------User Section---------------------------/'''
 class User:
     user_auth = False
     
@@ -68,8 +70,8 @@ class User:
                     data = ([User.user_dict(self)])
                     User.id_counter(self,data)
                     json.dump(data, users_file, indent=2)
-        
-    def add_admin(self):
+    @staticmethod  
+    def add_admin():
         with open("Users.json", "r") as users_file:
             data = json.load(users_file)
             user_input = input("User ID: ")
@@ -79,8 +81,8 @@ class User:
         with open("Users.json", "w") as users_file:
             json.dump(data, users_file, indent=2)
         print(f"{user_info["user name"]} {user_info["last name"]} change to Admin")
- 
-    def login(self):
+    @staticmethod
+    def login():
         print("Login".center(50, "*"))
         try:
             with open("Users.json", "r") as users_file:
@@ -96,17 +98,17 @@ class User:
                             print("Login Failed")               
         except FileNotFoundError:
             print("First Create Account")
-        
-    def search(self):
+    @staticmethod  
+    def search():
         print("Ticket Search".center(50,"*"))
         if User.user_auth == True:
-            self.user_travel_origin = input("Origin: ").lower()
-            self.user_travel_destination = input("Destination: ").lower()
-            self.user_travel_date = input("Date: ").lower()
+            user_travel_origin = input("Origin: ").lower()
+            user_travel_destination = input("Destination: ").lower()
+            user_travel_date = input("Date: ").lower()
             try:
                 with open("Travel.json", "r") as travel_file:
                     data = json.load(travel_file)
-                    filtered_data = [item for item in data if item["origin"] == self.user_travel_origin and item["destination"]==self.user_travel_destination and item["date"]>= self.user_travel_date ]
+                    filtered_data = [item for item in data if item["origin"] == user_travel_origin and item["destination"]==user_travel_destination and item["date"]>= user_travel_date ]
                     sorted_data = sorted(filtered_data, key=itemgetter("date", "time", "price"))
                     if filtered_data:
                         print(tabulate(sorted_data,headers="keys"))
@@ -116,8 +118,8 @@ class User:
                 print("Sorry, No Flight availabe")
         else:
             print("Access Denied, Please Login First")
-
-    def show_user_lst(self):
+    @staticmethod
+    def show_user_lst():
         with open("Users.json", "r") as user_file:
             data = json.load(user_file)
             final = []
@@ -127,6 +129,7 @@ class User:
             print(tabulate(final,headers="keys"))
 
 
+'''/---------------------Travel Section---------------------------/'''
 class Travel:
     def __init__(self):
         self.travel_id = 0
@@ -227,6 +230,7 @@ class Travel:
                     json.dump(data, travel_file, indent=2)
                 print(f"Travel ID: {travel_info['ID']} Canceled")
 
+'''/---------------------Ticket Section---------------------------/'''
 class Ticket:
     def __init__(self):
         self.ticket_id = 1
@@ -289,7 +293,8 @@ class Ticket:
         except FileNotFoundError:
             print("No Flight Exist")
                 
-        
+ 
+'''/---------------------Payment Section---------------------------/'''       
 
 class Payment:
     def __init__(self):
@@ -328,14 +333,57 @@ class Payment:
             print("No Ticket Exist")   
                 
 
+'''/---------------------Menu Structure---------------------------/'''
 
-a=User()
-a.login()
-b =Travel()
-# b.edit_travel()
-b.cancel_travel()
+def main_menu():
+        print("Main Menu".center(80,"."))
+        print("1) Login")
+        print("2) User Managment")
+        print("3) Add/Edit Travel (Just Admin)")
+        print("4) Exit")
 
-# b = Ticket()
-# b.reservation()
-# a=Payment()
-# a.pay()
+def user_manager():
+    while True:
+        print("User Menu".center(80,"."))
+        print("1) Create Account")
+        print("2) Account manager")
+        print("3) Search Ticket")
+        print("4) List of Users")
+        print("5) Back")
+        user_choise = int(input("Select option: "))
+        if user_choise == 1:
+            account_id = 1
+            print("Create Account".center(80,"."))
+            account_id = User()
+            print("Confirm? ")
+            user_choise = int(input("(1.yes 2.no):"))
+            if user_choise == 1:
+                account_id.add_user()
+                account_id += 1
+                print("**User Created Successfully**")
+            elif user_choise == 2:
+                print("**Cancel**")
+        elif user_choise == 2:
+            User.add_admin()
+        elif user_choise == 3:
+            User.search()
+        elif user_choise == 4:
+            User.show_user_lst()
+        elif user_choise == 5:
+            return
+while True:
+    main_menu()
+    user_choise = int(input("Select Option: "))
+    if user_choise == 1:
+        User.login()
+    elif user_choise == 2:
+        user_manager()
+    elif user_choise == 4:
+        print("Good Luck")
+        break
+    
+
+
+
+        
+
