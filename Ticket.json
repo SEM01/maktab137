@@ -1,0 +1,83 @@
+[
+  {
+    "ticket ID": 1,
+    "Status": "Sold",
+    "Reservation Date": "Wed Oct 29 19:18:28 2025"
+  },
+  {
+    "ticket ID": 2,
+    "Status": "Reserved",
+    "Reservation Date": "Wed Oct 29 19:18:28 2025"
+  },
+  {
+    "ticket ID": 3,
+    "Status": "Reserved",
+    "Reservation Date": "Wed Nov  5 13:24:52 2025"
+  },
+  {
+    "ticket ID": 4,
+    "Status": "Reserved",
+    "Reservation Date": "Wed Nov  5 13:45:34 2025"
+  },
+  {
+    "ticket ID": 5,
+    "Status": "Reserved",
+    "Reservation Date": "Wed Nov  5 14:00:18 2025",
+    "Origin": "tehran"
+  },
+  {
+    "ticket ID": 6,
+    "Status": "Sold",
+    "Reservation Date": "Wed Nov  5 14:00:56 2025",
+    "Origin": "tehran"
+  },
+  {
+    "ticket ID": 7,
+    "Origin": "tehran",
+    "Destination": "yazd",
+    "Status": "Sold",
+    "Reservation Date": "Wed Nov  5 14:18:17 2025"
+  },
+  {
+    "ticket ID": 8,
+    "Origin": "tehran",
+    "Destination": "yazd",
+    "Status": "Sold",
+    "Reservation Date": "Wed Nov  5 14:21:12 2025"
+  },
+  {
+    "ticket ID": 9,
+    "Origin": "shiraz",
+    "Destination": "tehran",
+    "Status": "Sold",
+    "Reservation Date": "Wed Nov  5 14:28:23 2025"
+  },
+  {
+    "ticket ID": 10,
+    "Origin": "shiraz",
+    "Destination": "tehran",
+    "Status": "Sold",
+    "Date": "Wed Nov  5 15:24:53 2025"
+  },
+  {
+    "ticket ID": 11,
+    "Origin": "shiraz",
+    "Destination": "tehran",
+    "Status": "Sold",
+    "Date": "Wed Nov  5 15:52:36 2025"
+  },
+  {
+    "ticket ID": 12,
+    "Origin": "shiraz",
+    "Destination": "tehran",
+    "Status": "Sold",
+    "Date": "Wed Nov  5 16:00:45 2025"
+  },
+  {
+    "ticket ID": 13,
+    "Origin": "shiraz",
+    "Destination": "tehran",
+    "Status": "Reserved",
+    "Date": "Wed Nov  5 16:02:11 2025"
+  }
+]
