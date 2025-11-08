@@ -35,10 +35,12 @@ class User:
         }
 
     def user_role(self):
-        if self.role == "admin":
-            return True
-        else:
-            return False
+        with open("Users.json","r") as users_file:
+            data = json.load(users_file)
+            if data["role"] == "admin":
+                return True
+            else:
+                return False
     
     def id_counter(self,data):
         last_id =1
@@ -117,14 +119,17 @@ class User:
             print("Access Denied, Please Login First")
     @staticmethod
     def show_user_lst():
-        with open("Users.json", "r") as user_file:
-            data = json.load(user_file)
-            final = []
-            for item in data:
-                filter_data = {k:v for k,v in item.items() if k not in {"password"}}
-                final.append(filter_data)
-            print(tabulate(final,headers="keys"))
-
+        if User.user_auth == True:
+            if User.user_role:
+                with open("Users.json", "r") as user_file:
+                    data = json.load(user_file)
+                    final = []
+                    for item in data:
+                        filter_data = {k:v for k,v in item.items() if k not in {"password"}}
+                        final.append(filter_data)
+                    print(tabulate(final,headers="keys"))
+        else:
+            print("Access Denied")
 
 '''/---------------------Travel Section---------------------------/'''
 class Travel:
