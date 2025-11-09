@@ -63,3 +63,9 @@ while True:
     elif user_choise == 5:
         print("Good Luck")
         break
+
+
+# a = User()
+# print(a.check_role())
+# a.login()
+# a.show_user_lst()

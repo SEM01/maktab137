@@ -3,27 +3,31 @@ import time
 import json
 from tabulate import tabulate
 from operator import itemgetter
+from passlib.hash import pbkdf2_sha256
 
 
 
 '''/---------------------User Section---------------------------/'''
 class User:
     user_auth = False
-    
-    def __init__(self, account_create_date=time.ctime()):
-        self.user_name = input("User Name: ")
-        self.password = PasswordHasher().hash(input("Password: "))
+    current_user = None  
+    user_id = 1
+    def __init__(self, account_create_date=time.ctime(), role="passenger"):
+        self.user_id = User.user_id
+        User.user_id += 1
+        self.user_name = input("User name: ")
+        self.password = pbkdf2_sha256.hash(input("Pass: "))
         self.first_name = input("First Name: ")
         self.last_name = input("Last Name: ")
         self.phone = input("Phone Number: ")
         self.birth_date = input("Birth date: ")
         self.account_create_date = account_create_date
-        self.role = "passenger"
+        self.role = role
         
 
     def user_dict(self):
-        return {
-            "user ID": User.user_id,
+       return {
+            "user ID": self.user_id,
             "user name": self.user_name,
             "password": self.password,
             "first name": self.first_name,
@@ -34,41 +38,52 @@ class User:
             "role": self.role,
         }
 
-    def user_role(self):
-        with open("Users.json","r") as users_file:
-            data = json.load(users_file)
-            if data["role"] == "admin":
-                return True
+
+    @staticmethod
+    def load_users():
+        try:
+            with open("Users.json", "r", encoding="utf-8") as f:
+                data = json.load(f)
+                if data:
+                    User.user_id = max(item["user ID"] for item in data) + 1
+                return data
+        except (FileNotFoundError, json.JSONDecodeError, ValueError):
+            return []
+        
+    @staticmethod
+    def save_users(data):
+        with open("Users.json", "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+
+
+    def username(self):
+        return self.user_name
+    
+    @staticmethod
+    def check_role(username=None):
+        if username is None:
+            if User.current_user:
+                username = User.current_user["user name"]
             else:
                 return False
+                
+        users = User.load_users()
+        user = next((u for u in users if u["user name"] == username), None)
+        return user["role"] == "admin" if user else False
     
-    def id_counter(self,data):
-        last_id =1
-        if data:
-            last_id = max(item.get("user ID",0) for item in data)
-        User.user_id = last_id + 1
 
     def add_user(self):
-        try:
-            with open("Users.json", "r") as users_file:
-                try:
-                    data = json.load(users_file)
-                    if self.user_name in [d['user name'] for d in data]:
-                        print("User Name Exist")
-                    else:
-                        User.id_counter(self,data)
-                        print("User Created")
-                        data.append(User.user_dict(self))
-                        with open("Users.json", "w") as users_file:
-                            json.dump(data, users_file, indent=2)
-                except json.JSONDecodeError:
-                    data = []
-        except FileNotFoundError:
-                with open("Users.json", "w") as users_file:
-                    print("User Created")
-                    data = ([User.user_dict(self)])
-                    User.id_counter(self,data)
-                    json.dump(data, users_file, indent=2)
+        users = User.load_users()
+        
+        if any(u["user name"] == self.user_name for u in users):
+            print("This username already exists!")
+            return False
+            
+        users.append(self.user_dict())
+        User.save_users(users)
+        print("User created successfully!")
+        return True 
+
     @staticmethod  
     def add_admin():
         with open("Users.json", "r") as users_file:
@@ -80,23 +95,35 @@ class User:
         with open("Users.json", "w") as users_file:
             json.dump(data, users_file, indent=2)
         print(f"{user_info["user name"]} {user_info["last name"]} change to Admin")
+    
+    
     @staticmethod
     def login():
         print("Login".center(50, "*"))
-        try:
-            with open("Users.json", "r") as users_file:
-                    data = json.load(users_file)
-                    user_input = input("User name: ")
-                    if user_input in [d["user name"] for d in data]:
-                        user_info = [d for d in data if d["user name"]==user_input][0]
-                        try:
-                            PasswordHasher().verify(user_info.get("password"), input("Password: "))
-                            User.user_auth = True
-                            print("Login Sucessfully") 
-                        except Exception:
-                            print("Login Failed")               
-        except FileNotFoundError:
-            print("First Create Account")
+        users = User.load_users()
+        
+        if not users:
+            print("No users found! Please create an account first.")
+            return False
+            
+        username = input("User name: ")
+        password = input("Password: ")
+        
+        for user in users:
+            if user["user name"] == username:
+                if pbkdf2_sha256.verify(password, user["password"]):
+                    User.user_auth = True
+                    User.current_user = user
+                    print(f"Welcome {user['first name']} {user['last name']}!")
+                    return True
+                else:
+                    print("Wrong password!")
+                    return False
+                
+        print("Username not found!")
+        return False
+
+
     @staticmethod  
     def search():
         print("Ticket Search".center(50,"*"))
@@ -119,17 +146,36 @@ class User:
             print("Access Denied, Please Login First")
     @staticmethod
     def show_user_lst():
-        if User.user_auth == True:
-            if User.user_role:
-                with open("Users.json", "r") as user_file:
-                    data = json.load(user_file)
-                    final = []
-                    for item in data:
-                        filter_data = {k:v for k,v in item.items() if k not in {"password"}}
-                        final.append(filter_data)
-                    print(tabulate(final,headers="keys"))
-        else:
-            print("Access Denied")
+        if not User.user_auth:
+            print("You must Login First!")
+            return
+
+        if not User.check_role():
+            print("Access Denied.")
+            return
+        users = User.load_users()
+        if not users:
+            print("User not Found.")
+            return
+
+        safe_users = []
+        for user in users:
+            safe_user = {
+                "user ID": user["user ID"],
+                "user name": user["user name"],
+                "first name": user["first name"],
+                "last name": user.get("last name", "-"),
+                "phone": user.get("phone", "-"),
+                "role": user["role"],
+                "account create date": user.get("account create date", "-")
+            }
+            safe_users.append(safe_user)
+
+        print("\n" + "="*60)
+        print("              List of Users")
+        print("="*60)
+        print(tabulate(safe_users, headers="keys", tablefmt="grid"))
+        print(f"Number of Users: {len(safe_users)}\n")
 
 '''/---------------------Travel Section---------------------------/'''
 class Travel:
@@ -332,11 +378,6 @@ class Payment:
                 json.dump(ticket_data, ticket_file, indent=2)
         except FileNotFoundError:
             print("No Ticket Exist")   
-                
 
 
-
-
-
-        
 
