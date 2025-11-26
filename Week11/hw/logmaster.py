@@ -1,7 +1,6 @@
 import argparse
 import re as regex
-import os
-import time
+
 
 parser = argparse.ArgumentParser(
     prog="Log Analysis & Automation Toolkit",
