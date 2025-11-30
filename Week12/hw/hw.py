@@ -19,4 +19,21 @@ class Reminder:
     reminder_id: int = field(default_factory=lambda: next(id))
 
 
+@dataclass
+class SimpleReminder(Reminder):
+    def __repr__(self):
+        return f"It is Time: {Reminder.title}"
 
+
+@dataclass
+class MeetingReminder(Reminder):
+    participants: list
+
+
+@dataclass
+class DailyRoutineReminder(Reminder):
+    repeat: bool
+
+
+@dataclass
+class ReminderManager: ...
