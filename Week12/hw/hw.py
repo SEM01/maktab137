@@ -15,25 +15,39 @@ id = id_gen()
 @dataclass
 class Reminder:
     title: str
-    time: str
+    time: str = "0"
     reminder_id: int = field(default_factory=lambda: next(id))
 
 
-@dataclass
+@dataclass(init=False)
 class SimpleReminder(Reminder):
+    def __init__(self, title, time):
+        self.title = title
+        self.time = time
+
     def __repr__(self):
-        return f"It is Time: {Reminder.title}"
+        return f"It is Time: {self.title}"
 
 
-@dataclass
+@dataclass(init=False)
 class MeetingReminder(Reminder):
-    participants: list
+    def __init__(self, title, time, participants):
+        self.title = title
+        self.time = time
+        self.participants = participants
+
+    def __repr__(self):
+        return f"Meeting Reminder: {self.title}--->{self.participants}"
 
 
 @dataclass
 class DailyRoutineReminder(Reminder):
-    repeat: bool
+    repeat: bool = False
 
 
 @dataclass
 class ReminderManager: ...
+
+
+task1 = MeetingReminder("Speaking", "10", ["A", "b"])
+print(task1)
