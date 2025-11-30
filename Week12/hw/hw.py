@@ -19,7 +19,4 @@ class Reminder:
     reminder_id: int = field(default_factory=lambda: next(id))
 
 
-task1 = Reminder("wake", "10.20")
-print(task1)
-task2 = Reminder("wake", "10.20")
-print(task2)
+
