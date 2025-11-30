@@ -21,23 +21,17 @@ class Reminder:
 
 @dataclass(init=False)
 class SimpleReminder(Reminder):
-    def __init__(self, title, time):
-        self.title = title
-        self.time = time
 
     def __repr__(self):
-        return f"It is Time: {self.title}"
+        return f"<Task ID:{self.reminder_id}> It is Time: {self.title}"
 
 
-@dataclass(init=False)
+@dataclass
 class MeetingReminder(Reminder):
-    def __init__(self, title, time, participants):
-        self.title = title
-        self.time = time
-        self.participants = participants
+    participants: list = Any
 
     def __repr__(self):
-        return f"Meeting Reminder: {self.title}--->{self.participants}"
+        return f"<Task ID:{self.reminder_id}> Meeting Reminder: {self.title}--->{self.participants}"
 
 
 @dataclass
@@ -49,5 +43,8 @@ class DailyRoutineReminder(Reminder):
 class ReminderManager: ...
 
 
-task1 = MeetingReminder("Speaking", "10", ["A", "b"])
+task1 = MeetingReminder(title="Speaking", time="10", participants=["a", "b"])
 print(task1)
+
+task2 = SimpleReminder(title="Cooking", time="10")
+print(task2)
