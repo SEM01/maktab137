@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from typing import Any
 import logging
 
-logging.basicConfig(filename="log.txt", filemode="a")
+logging.basicConfig(filename="reminder.log", filemode="a")
 
 
 def id_gen():
