@@ -28,36 +28,49 @@ class Reminder:
     reminder_id: int = field(default_factory=lambda: next(id))
 
 
-@dataclass(init=False)
+@dataclass
 class SimpleReminder(Reminder):
+    def __post_init__(self):
+        if self.title == "" or self.time == "":
+            logger.error("Empty")
+        else:
+            reminder_list = []
+            reminder_list.append(self.reminder_id)
+            print(reminder_list)
+
     def __repr__(self):
         return f"<Task ID:{self.reminder_id}> It is Time: {self.title}"
-
-    logger.info("Simple Reminder add")
 
 
 @dataclass
 class MeetingReminder(Reminder):
     participants: list = Any
 
+    def __post_init__(self):
+        if self.title == "" or self.time == "":
+            logger.error("Empty")
+        else:
+            reminder_list = []
+            reminder_list.append(self.reminder_id)
+            print(reminder_list)
+
     def __repr__(self):
         return f"<Task ID:{self.reminder_id}> Meeting Reminder: {self.title}--->{self.participants}"
-
-    logger.info("Meeting Reminder add")
 
 
 @dataclass
 class DailyRoutineReminder(Reminder):
     repeat: bool = False
-    logger.info("Daily Routine Reminder add")
 
 
 @dataclass
-class ReminderManager: ...
+class ReminderManager:
+    def add_reminder():
+        logger.info("Reminder add")
 
 
 task1 = MeetingReminder(title="Speaking", time="10", participants=["a", "b"])
-print(task1)
+ReminderManager.add_reminder()
 
-task2 = SimpleReminder(title="Cooking", time="10")
-print(task2)
+
+task2 = SimpleReminder(title="", time="10")
