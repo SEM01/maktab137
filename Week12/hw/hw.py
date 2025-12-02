@@ -3,6 +3,7 @@ from typing import Any
 import logging
 from logging.handlers import RotatingFileHandler
 
+
 logger_format = logging.Formatter(
     "%(name)s - %(asctime)s - %(levelname)s - %(message)s"
 )
@@ -70,7 +71,20 @@ class MeetingReminder(Reminder):
 
 @dataclass
 class DailyRoutineReminder(Reminder):
-    repeat: bool = False
+    repeat: bool = True
+
+    def __post_init__(self):
+        if self.title == "" or self.time == "":
+            logger.error("Empty")
+        else:
+            reminder_list = []
+            reminder_list.append(self.reminder_id)
+            reminder_list.append(self.title)
+            reminder_list.append(self.time)
+            print(reminder_list)
+
+    def __repr__(self):
+        return f"<Task ID:{self.reminder_id}> Daily Routine: {self.title} <Daily Reminder Active>"
 
 
 @dataclass
