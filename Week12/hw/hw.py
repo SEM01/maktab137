@@ -37,15 +37,16 @@ class Reminder:
 
 @dataclass
 class SimpleReminder(Reminder):
+    reminder_list = []
+
     def __post_init__(self):
         if self.title == "" or self.time == "":
             logger.error("Empty")
         else:
-            reminder_list = []
-            reminder_list.append(self.reminder_id)
-            reminder_list.append(self.title)
-            reminder_list.append(self.time)
-            print(reminder_list)
+            SimpleReminder.reminder_list.append(self.reminder_id)
+            SimpleReminder.reminder_list.append(self.title)
+            SimpleReminder.reminder_list.append(self.time)
+            print(SimpleReminder.reminder_list)
 
     def __repr__(self):
         return f"<Task ID:{self.reminder_id}> It is Time: {self.title}"
@@ -54,16 +55,16 @@ class SimpleReminder(Reminder):
 @dataclass
 class MeetingReminder(Reminder):
     participants: list = Any
+    reminder_list = []
 
     def __post_init__(self):
         if self.title == "" or self.time == "":
             logger.error("Empty")
         else:
-            reminder_list = []
-            reminder_list.append(self.reminder_id)
-            reminder_list.append(self.title)
-            reminder_list.append(self.time)
-            print(reminder_list)
+            MeetingReminder.reminder_list.append(self.reminder_id)
+            MeetingReminder.reminder_list.append(self.title)
+            MeetingReminder.reminder_list.append(self.time)
+            print(MeetingReminder.reminder_list)
 
     def __repr__(self):
         return f"<Task ID:{self.reminder_id}> Meeting Reminder: {self.title}--->{self.participants}"
@@ -72,16 +73,16 @@ class MeetingReminder(Reminder):
 @dataclass
 class DailyRoutineReminder(Reminder):
     repeat: bool = True
+    reminder_list = []
 
     def __post_init__(self):
         if self.title == "" or self.time == "":
             logger.error("Empty")
         else:
-            reminder_list = []
-            reminder_list.append(self.reminder_id)
-            reminder_list.append(self.title)
-            reminder_list.append(self.time)
-            print(reminder_list)
+            DailyRoutineReminder.reminder_list.append(self.reminder_id)
+            DailyRoutineReminder.reminder_list.append(self.title)
+            DailyRoutineReminder.reminder_list.append(self.time)
+            print(DailyRoutineReminder.reminder_list)
 
     def __repr__(self):
         return f"<Task ID:{self.reminder_id}> Daily Routine: {self.title} <Daily Reminder Active>"
@@ -92,9 +93,19 @@ class ReminderManager:
     def add_reminder():
         logger.info("Reminder add")
 
+    def list_reminders():
+        print("Simple Reminder")
+        print(f"{SimpleReminder.reminder_list}", end="\n")
+        print("Meeting")
+        print(f"{MeetingReminder.reminder_list}", end="\n")
+        print("Daily")
+        print(f"{DailyRoutineReminder.reminder_list}", end="\n")
 
-task1 = MeetingReminder(title="Speaking", time="10", participants=["a", "b"])
-ReminderManager.add_reminder()
+
+# task1 = MeetingReminder(title="Speaking", time="10", participants=["a", "b"])
+# # ReminderManager.add_reminder()
 
 
-task2 = SimpleReminder(title="", time="10")
+# task2 = SimpleReminder(title="a", time="10")
+# task3 = SimpleReminder(title="b", time="10")
+# ReminderManager.list_reminders()
