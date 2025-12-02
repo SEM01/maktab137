@@ -3,12 +3,6 @@ from typing import Any
 import logging
 from logging.handlers import RotatingFileHandler
 
-# logging.basicConfig(
-#     level=logging.INFO,
-#     format="%(name)s - %(asctime)s - %(levelname)s - %(message)s",
-#     filename="reminder.log",
-#     filemode="a",
-# )
 logger_format = logging.Formatter(
     "%(name)s - %(asctime)s - %(levelname)s - %(message)s"
 )
