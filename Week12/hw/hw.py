@@ -40,6 +40,7 @@ class Reminder:
 @dataclass
 class SimpleReminder(Reminder):
     reminder: dict = field(default_factory=dict)
+    reminder_type:str = "Simple"
 
     def __post_init__(self):
         if self.title == "" or self.time == "":
@@ -52,12 +53,20 @@ class SimpleReminder(Reminder):
 
     def __repr__(self):
         return f"<Task ID:{self.reminder_id}> It is Time: {self.title}"
+    
+    def remind():
+        print("All Simple Reminders")
+        reminders = [reminder for reminder in All_Reminders if reminder.get("reminder_type")=='Simple']
+        for item in reminders:
+            print(f"{item}")
+            logger.info("Remind Running")
 
 
 @dataclass
 class MeetingReminder(Reminder):
     participants: list = Any
     reminder: dict = field(default_factory=dict)
+    reminder_type :str = 'Meeting'
 
     def __post_init__(self):
         if self.title == "" or self.time == "":
@@ -71,12 +80,19 @@ class MeetingReminder(Reminder):
     def __repr__(self):
         return f"<Task ID:{self.reminder_id}> Meeting Reminder: {self.title}--->{self.participants}"
 
+    def remind():
+        print("All Meeting Reminders")
+        reminders = [reminder for reminder in All_Reminders if reminder.get("reminder_type")=='Meeting']
+        for item in reminders:
+            print(f"{item}")
+            logger.info("Remind Running")
 
 @dataclass
 class DailyRoutineReminder(Reminder):
     repeat: bool = True
     reminder_list = []
     reminder: dict = field(default_factory=dict)
+    reminder_type:str = 'Daily'
 
     def __post_init__(self):
         if self.title == "" or self.time == "":
@@ -90,6 +106,12 @@ class DailyRoutineReminder(Reminder):
     def __repr__(self):
         return f"<Task ID:{self.reminder_id}> Daily Routine: {self.title} <Daily Reminder Active>"
 
+    def remind():
+        print("All Daily Reminders")
+        reminders = [reminder for reminder in All_Reminders if reminder.get("reminder_type")=='Daily']
+        for item in reminders:
+            print(f"{item}")
+            logger.info("Remind Running")
 
 @dataclass
 class ReminderManager:
@@ -98,13 +120,26 @@ class ReminderManager:
 
     def list_reminders():
         print("All Reminders")
-        for record in All_Reminders:
-            print(f"{record}")
+        for reminder in All_Reminders:
+            print(f"{reminder}")
+
+    def remove_reminder(id):
+        for i,reminder in enumerate(All_Reminders):
+            if reminder.get('reminder_id') == id:
+                All_Reminders.pop(i)
+                logger.warning("Reminder removed")
+
+    def search(id):
+        for i,reminder in enumerate(All_Reminders):
+            if reminder.get('reminder_id') == id:
+                print(reminder)
 
 
-task1 = MeetingReminder(title="Speaking", time="10", participants=["a", "b"])
-# # ReminderManager.add_reminder()
 
-task2 = SimpleReminder(title="a", time="10")
-task3 = SimpleReminder(title="b", time="10")
-ReminderManager.list_reminders()
+# task1 = MeetingReminder(title="Speaking", time="10", participants=["a", "b"])
+# task2 = SimpleReminder(title="a", time="10")
+# task3 = SimpleReminder(title="b", time="10")
+# SimpleReminder.remind()
+# ReminderManager.remove_reminder(1)
+# ReminderManager.list_reminders()
+# ReminderManager.search(2)
