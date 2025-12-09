@@ -1,3 +1,3 @@
-import database:
+#import database:
 \i /tmp/database.sql
-change database: \c database
+#change database: \c database
