@@ -1,2 +1,3 @@
 import database:
 \i /tmp/database.sql
+change database: \c database
