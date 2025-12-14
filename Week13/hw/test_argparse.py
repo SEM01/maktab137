@@ -1,4 +1,4 @@
-from t import main
+from logmaster import main
 import pytest
 import shlex
 
