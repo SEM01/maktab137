@@ -1,5 +1,6 @@
 from argparse import ArgumentParser
 import re as regex
+import sys
 
 
 def parse_args(args=None):
@@ -52,8 +53,9 @@ def main(args=None):
     try:
         with open(args.file, "r", encoding="utf-8") as log_file:
             lines = [line.rstrip("\n") for line in log_file]
-    except:
-        print("file not found")
+    except FileNotFoundError:
+        print("LOG file not found", file=sys.stderr)
+        sys.exit(1)
     if args.Command == "scan":
         result = []
         count = 0
