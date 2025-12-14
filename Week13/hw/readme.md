@@ -1,2 +1,3 @@
 - import database: \i /tmp/database.sql
 - change database: \c database
+- crontab -e: 0 2 * * SUN /home/office/Documents/Learning/project/bash_test.sh
