@@ -1,0 +1,57 @@
+--Q1
+SELECT * FROM owner;
+
+--Q2
+SELECT pet_Name FROM pet;
+
+--Q3
+SELECT doctor_name, specialty FROM doctor;
+
+--Q4
+SELECT * FROM treatment;
+
+--Q5
+SELECT * FROM pet
+WHERE species = 'Cat';
+
+--Q7
+SELECT * FROM owner
+WHERE phone LIKE '09%';
+
+--Q8
+SELECT * FROM pet
+WHERE species = 'Dog' AND pet_name like 'B%';
+
+--Q9
+SELECT * FROM treatment
+WHERE treatment_date > '2023-01-01';
+
+--Q10
+SELECT treatment_date, pet_name, description, doctor_name FROM treatment
+JOIN pet ON treatment.pet_id=pet.pet_id
+JOIN doctor ON treatment.doctor_id=doctor.doctor_id;
+
+--Q11
+SELECT pet_name AS "PET", owner_name AS "OWNER" FROM pet
+JOIN owner ON pet.owner_id=owner.owner_id;
+
+--Q12
+SELECT owner_name AS "OWNER", COUNT (pet_name) FROM pet 
+JOIN owner ON pet.owner_id=owner.owner_id
+GROUP BY owner_name
+ORDER BY owner_name;
+
+--Q13
+SELECT doctor_name AS DOCTOR, COUNT(treatment_id) FROM treatment
+JOIN doctor ON treatment.doctor_id=doctor.doctor_id
+GROUP BY doctor_name
+ORDER BY doctor_name;
+
+--Q14
+SELECT treatment_date AS "Treatment Date", description as "Description" FROM treatment
+ORDER BY treatment_date DESC;
+
+--Q15
+SELECT treatment_date AS "Treatment Date", description as "Description" FROM treatment
+ORDER BY treatment_date DESC
+LIMIT 2;
