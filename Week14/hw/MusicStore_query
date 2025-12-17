@@ -1,0 +1,60 @@
+--Q1
+SELECT COUNT(purchase_id) AS "Total Purchase" from purchase;
+
+--Q2
+SELECT MAX(release_year) AS "Max Release Year" FROM album;
+
+--Q3
+SELECT MIN(release_year) AS "Min Release Year" FROM album;
+
+--Q4
+SELECT name AS "Artist Name", COUNT(album_id) AS "Total Album" FROM album
+JOIN artist ON album.artist_id=artist.artist_id
+GROUP BY name;
+
+--Q5
+SELECT name AS "Customer Name", COUNT(purchase_id) AS "Total Purchase" FROM purchase
+JOIN customer ON purchase.customer_id=customer.customer_id
+GROUP BY name;
+
+--Q6
+SELECT title AS "Album Title", release_year AS "Release Year" FROM album
+ORDER BY release_year DESC;
+
+--Q7
+SELECT * FROM customer
+ORDER BY name;
+
+--Q8
+SELECT purchase_date, name AS "Customer Name", title AS "Album Title" FROM purchase
+JOIN customer ON purchase.customer_id=customer.customer_id
+JOIN album ON purchase.album_id=album.album_id
+ORDER BY purchase_date DESC;
+
+--Q9
+SELECT * FROM album
+WHERE release_year > 2020 AND title LIKE '%Love%';
+
+--Q10
+SELECT DISTINCT name FROM purchase
+JOIN customer ON purchase.customer_id=customer.customer_id
+WHERE name like '%maryam%';
+
+--Q11
+SELECT COUNT(album_id) FROM album
+WHERE release_year > 2015;
+
+--Q11
+SELECT name, artist.artist_id FROM artist
+LEFT JOIN album ON artist.artist_id=album.artist_id
+WHERE album.artist_id IS NULL;
+
+--Q12
+SELECT DISTINCT country from artist;
+
+--Q13
+SELECT customer.name , MAX(t_purchase) FROM (SELECT name, COUNT(purchase_id) AS t_purchase FROM purchase
+JOIN customer ON purchase.customer_id=customer.customer_id
+GROUP BY customer.name), purchase
+JOIN customer ON purchase.customer_id=customer.customer_id
+GROUP BY customer.name;
