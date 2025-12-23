@@ -1,0 +1,48 @@
+body {
+    background-color: coral;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.element {
+    width: 250px;
+    height: 220px;
+    background-color: azure;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.title {
+    text-align: center;
+}
+
+.textfield {
+    color: gray;
+    width: 200px;
+    height: 20px;
+    border-color: dimgrey;
+    border-radius: 10px;
+    font-size: 10px;
+    text-align: right;
+    margin-left:20px;
+    margin-bottom: 5px;
+}
+
+.button {
+    font-size: 10px;
+    width: 200px;
+    height: 30px;
+    margin-left:25px;
+    margin-top: 5px;
+}
+
+.register {
+    text-align: center;
+    font-size: 10px;
+}
