@@ -1,0 +1,32 @@
+.image {
+    width: 200px;
+    height: 200px;
+    margin-left: 100%;
+}
+
+.container {
+    display: flex;
+}
+
+.main {
+    width: 650px;
+    height: 250px;
+    background-color: blueviolet;
+}
+
+.part {
+    width: 350px;
+    height: 250px;
+}
+
+.lsec1 {
+    width: 650px;
+    margin-top: 200px;
+    background-color: aqua;
+
+}
+
+.rsec1 {
+    width: 350;
+    background-color: blueviolet;
+}
