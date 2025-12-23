@@ -1,0 +1,19 @@
+table {
+    border-collapse: collapse;
+    border: 1px solid orange;
+    margin: 10px;
+}
+
+td,th {
+    border: 0px solid black;
+    padding: 10px;
+}
+
+.image {
+    border: 1px solid black;
+    margin-right: 40px;
+}
+
+.name,.label {
+    color: darkblue;
+}
