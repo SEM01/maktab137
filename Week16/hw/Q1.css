@@ -1,0 +1,161 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.header {
+    display: flex;
+    padding: 20px 0px 10px 0px;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid rgb(13, 223, 238);
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.header a {
+    text-decoration: none;
+    color: rgb(146, 140, 140);
+}
+
+.header ul li {
+    list-style-type: none;
+    text-decoration: none;
+    font-size: 18px;
+    float:left;
+    padding: 14px 16px;
+}
+
+.header button {
+    color: rgb(255, 255, 255);
+    background-color: green;
+    cursor: pointer;
+    border-radius: 1rem;
+    padding: 5px 20px;
+    border: none;
+}
+
+.main {
+    display: flex;
+    padding: 20px 0px 0px 0px;
+    max-width: 1300px;
+    margin: 0 auto;
+    height: 600px;
+}
+
+.maintxt h1 {
+    padding-left: 10px;
+    color: rgb(0, 204, 255);
+}
+
+.mainp {
+    padding-left: 10px;
+    padding-top: 10px;
+    font-size: 18px;
+}
+
+.sidebar {
+    height: 250px;
+    margin-top: 5px;
+    border-top: 2px solid purple;
+    background-color: rgb(234, 232, 232);
+}
+
+.sidebar h2 {
+    padding: 25px 0px 20px 20px;
+}
+
+.sidebar ul {
+    margin-top: 2px;
+    width: 105px;
+}
+
+.sidebar ul li {
+    list-style-type: none;
+    font-size: 18px;
+    float:left;
+    padding: 0px 5px 5px 20px;
+}
+
+.sidebar a {
+    text-decoration: none;
+}
+
+.cards {
+    display: flex;
+    width: 100%;
+    height: 175px;
+    margin: 200px 10px;
+    border: 1px solid rgb(216, 213, 213);
+    justify-content: space-between;
+}
+
+.headcard {
+    padding-top: 15px;
+    padding-right: 15px;
+    padding-left: 10px;
+    font-size: 19px;  
+}
+
+.cardtip {
+    padding: 10px 0 0 10px ;
+    color: gray;
+}
+
+.cards button {
+    border-color: aqua;
+    margin: 20px 0 0 10px;
+    padding: 8px;
+    background-color: white;
+}
+
+.cards a {
+    text-decoration: none;
+    color: aqua;
+}
+
+.bottom {
+    display: flex;
+    padding: 15px 0px 0px 0px;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.gallery {
+    display: flex;
+    padding: 15px 0px 0px 0px;
+    align-items:start;
+    width: 950px;
+    margin: 0 0 0 0px;
+    flex-wrap: wrap;
+    justify-items: left;
+}
+
+.gallery img {
+    width: 230px;
+    height: 230px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+
+}
+.rpost {
+    width: 350px;
+    display: flex;
+    margin-top: 15px;
+    background-color: rgb(255, 255, 255);
+}
+
+.rpost h1 {
+    
+    padding-right: 60px;
+    height: 40px;
+    border-bottom: 1px solid rgb(207, 201, 201);
+}
+
+.rpost ul {
+    padding-top: 50px;
+    padding-right: 50px;
+}
+.rpost ul li {
+    font-size: 18px;
+}
