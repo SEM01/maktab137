@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="func()">click</button>
+    <button onclick="func1()">click1</button>
+
+    <p id="t">1</p>
+    <script>
+        let test = 1;
+        function func() {
+            document.getElementById("t").innerHTML=test+=1;
+        }
+        function func1() {
+            if (test >0) {
+                document.getElementById("t").innerHTML=test-=1;
+            }
+        }
+    </script>
+    
+</body>
+</html>
