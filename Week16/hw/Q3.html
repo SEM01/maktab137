@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="Q3.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script></script>
 </head>
 <body>
     <div class="header">
@@ -13,18 +16,18 @@
 
     <div class="main">
 
-        <div class="item1">
+        <div class="item">
             <div class="totalprice">
                 <p>تومان</p>
-                <p id="price">0</p>
+                <p id="pricetot1">0</p>
             </div>
             <div class="detail">
                 <p>همبرگر مخصوص</p>
-                <p>280000 تومان</p>
+                <p class="price">280000 تومان</p>
                 <div class="count">
-                    <img src="img/+.png" alt="">
-                    <p>0</p>
-                    <img src="img/-.png" alt="">
+                    <button class="btnadd" onclick="additem1()">+</button>
+                    <p id="total1">0</p>
+                    <button class="btnmines" onclick="delitem1()">-</button>
                 </div>
             </div>
             <div class="image">
@@ -32,172 +35,18 @@
             </div>
         </div>
 
-        <div class="item1">
+        <div class="item">
             <div class="totalprice">
                 <p>تومان</p>
-                <p id="price">0</p>
-            </div>
-            <div class="detail">
-                <p>همبرگر مخصوص</p>
-                <p>280000 تومان</p>
-                <div class="count">
-                    <img src="img/+.png" alt="">
-                    <p>0</p>
-                    <img src="img/-.png" alt="">
-                </div>
-            </div>
-            <div class="image">
-                <img src="img/hamburger.png" alt="hamburger">
-            </div>
-        </div>
-
-        <div class="item1">
-            <div class="totalprice">
-                <p>تومان</p>
-                <p id="price">0</p>
-            </div>
-            <div class="detail">
-                <p>همبرگر مخصوص</p>
-                <p>280000 تومان</p>
-                <div class="count">
-                    <img src="img/+.png" alt="">
-                    <p>0</p>
-                    <img src="img/-.png" alt="">
-                </div>
-            </div>
-            <div class="image">
-                <img src="img/hamburger.png" alt="hamburger">
-            </div>
-        </div>
-
-        <div class="item1">
-            <div class="totalprice">
-                <p>تومان</p>
-                <p id="price">0</p>
-            </div>
-            <div class="detail">
-                <p>همبرگر مخصوص</p>
-                <p>280000 تومان</p>
-                <div class="count">
-                    <img src="img/+.png" alt="">
-                    <p>0</p>
-                    <img src="img/-.png" alt="">
-                </div>
-            </div>
-            <div class="image">
-                <img src="img/hamburger.png" alt="hamburger">
-            </div>
-        </div>
-        
-        <div class="item1">
-            <div class="totalprice">
-                <p>تومان</p>
-                <p id="price">0</p>
-            </div>
-            <div class="detail">
-                <p>همبرگر مخصوص</p>
-                <p>280000 تومان</p>
-                <div class="count">
-                    <img src="img/+.png" alt="">
-                    <p>0</p>
-                    <img src="img/-.png" alt="">
-                </div>
-            </div>
-            <div class="image">
-                <img src="img/hamburger.png" alt="hamburger">
-            </div>
-        </div>
-        
-        <div class="item1">
-            <div class="totalprice">
-                <p>تومان</p>
-                <p id="price">0</p>
-            </div>
-            <div class="detail">
-                <div class="tp">
-                    <p>همبرگر مخصوص</p>
-                    <p>280000 تومان</p>
-                </div>
-                <div class="count">
-                    <img src="img/+.png" alt="">
-                    <p>0</p>
-                    <img src="img/-.png" alt="">
-                </div>
-            </div>
-            <div class="image">
-                <img src="img/hamburger.png" alt="hamburger">
-            </div>
-        </div>
-        
-        <div class="item1">
-            <div class="totalprice">
-                <p>تومان</p>
-                <p id="price">0</p>
-            </div>
-            <div class="detail">
-                <p>همبرگر مخصوص</p>
-                <p>280000 تومان</p>
-                <div class="count">
-                    <img src="img/+.png" alt="">
-                    <p>0</p>
-                    <img src="img/-.png" alt="">
-                </div>
-            </div>
-            <div class="image">
-                <img src="img/hamburger.png" alt="hamburger">
-            </div>
-        </div>
-        
-        <div class="item1">
-            <div class="totalprice">
-                <p>تومان</p>
-                <p id="price">0</p>
-            </div>
-            <div class="detail">
-                <p>همبرگر معمولی با قارچ و پنیر</p>
-                <p>280000 تومان</p>
-                <div class="count">
-                    <img src="img/+.png" alt="">
-                    <p>0</p>
-                    <img src="img/-.png" alt="">
-                </div>
-            </div>
-            <div class="image">
-                <img src="img/hamburger.png" alt="hamburger">
-            </div>
-        </div>
-        
-        <div class="item1">
-            <div class="totalprice">
-                <p>تومان</p>
-                <p id="price">0</p>
-            </div>
-            <div class="detail">
-                <p>همبرگر مخصوص</p>
-                <p>280000 تومان</p>
-                <div class="count">
-                    <img src="img/+.png" alt="">
-                    <p>0</p>
-                    <img src="img/-.png" alt="">
-                </div>
-            </div>
-            <div class="image">
-                <img src="img/hamburger.png" alt="hamburger">
-            </div>
-        </div>
-        
-        <div class="item1">
-            <div class="totalprice">
-                <p>تومان</p>
-                <p id="price">0</p>
+                <p id="pricetot2">0</p>
             </div>
             <div class="detail">
                 <p>همبرگر معمولی</p>
-                <p>180000 تومان</p>
+                <p class="price">180000 تومان</p>
                 <div class="count">
-                    <img src="img/+.png" alt="">
-                    <p>0</p>
-                    <img src="img/-.png" alt="">
+                    <button class="btnadd" onclick="additem2()">+</button>
+                    <p id="total2">0</p>
+                    <button class="btnmines" onclick="delitem2()">-</button>
                 </div>
             </div>
             <div class="image">
@@ -205,6 +54,159 @@
             </div>
         </div>
 
+        <div class="item">
+            <div class="totalprice">
+                <p>تومان</p>
+                <p id="pricetot3">0</p>
+            </div>
+            <div class="detail">
+                <p>همبرگر مخصوص با قارچ و پنیر</p>
+                <p class="price">400000 تومان</p>
+                <div class="count">
+                    <button class="btnadd" onclick="additem3()">+</button>
+                    <p id="total3">0</p>
+                    <button class="btnmines" onclick="delitem3()">-</button>
+                </div>
+            </div>
+            <div class="image">
+                <img src="img/hamburger.png" alt="hamburger">
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="totalprice">
+                <p>تومان</p>
+                <p id="pricetot4">0</p>
+            </div>
+            <div class="detail">
+                <p>همبرگر معمولی با قارچ و پنیر</p>
+                <p class="price">300000 تومان</p>
+                <div class="count">
+                   <button class="btnadd" onclick="additem4()">+</button>
+                    <p id="total4">0</p>
+                    <button class="btnmines" onclick="delitem4()">-</button>
+                </div>
+            </div>
+            <div class="image">
+                <img src="img/hamburger.png" alt="hamburger">
+            </div>
+        </div>
+        
+        <div class="item">
+            <div class="totalprice">
+                <p>تومان</p>
+                <p id="pricetot5">0</p>
+            </div>
+            <div class="detail">
+                <p>سیب زمینی سرخ کرده</p>
+                <p class="price">280000 تومان</p>
+                <div class="count">
+                    <button class="btnadd" onclick="additem5()">+</button>
+                    <p id="total5">0</p>
+                    <button class="btnmines" onclick="delitem5()">-</button>
+                </div>
+            </div>
+            <div class="image">
+                <img src="img/french_fries.png" alt="french_fries">
+            </div>
+        </div>
+        
+        <div class="item">
+            <div class="totalprice">
+                <p>تومان</p>
+                <p id="pricetot6">0</p>
+            </div>
+            <div class="detail">
+                    <p>سیب زمینی سرخ کرده ویژه</p>
+                    <p class="price">350000 تومان</p>
+                <div class="count">
+                    <button class="btnadd" onclick="additem6()">+</button>
+                    <p id="total6">0</p>
+                    <button class="btnmines" onclick="delitem6()">-</button>
+                </div>
+            </div>
+            <div class="image">
+                <img src="img/french_fries.png" alt="french_fries">
+            </div>
+        </div>
+        
+        <div class="item">
+            <div class="totalprice">
+                <p>تومان</p>
+                <p id="pricetot7">0</p>
+            </div>
+            <div class="detail">
+                <p>نوشابه</p>
+                <p class="price">50000 تومان</p>
+                <div class="count">
+                    <button class="btnadd" onclick="additem7()">+</button>
+                    <p id="total7">0</p>
+                    <button class="btnmines" onclick="delitem7()">-</button>
+                </div>
+            </div>
+            <div class="image">
+                <img src="img/soda.png" alt="soda">
+            </div>
+        </div>
+        
+        <div class="item">
+            <div class="totalprice">
+                <p>تومان</p>
+                <p id="pricetot8">0</p>
+            </div>
+            <div class="detail">
+                <p>نوشابه رژیمی</p>
+                <p class="price">60000 تومان</p>
+                <div class="count">
+                    <button class="btnadd" onclick="additem8()">+</button>
+                    <p id="total8">0</p>
+                    <button class="btnmines" onclick="delitem8()">-</button>
+                </div>
+            </div>
+            <div class="image">
+                <img src="img/soda.png" alt="soda">
+            </div>
+        </div>
+        
+        <div class="item">
+            <div class="totalprice">
+                <p>تومان</p>
+                <p id="pricetot9">0</p>
+            </div>
+            <div class="detail">
+                <p>سالاد سزار</p>
+                <p class="price">350000 تومان</p>
+                <div class="count">
+                    <button class="btnadd" onclick="additem9()">+</button>
+                    <p id="total9">0</p>
+                    <button class="btnmines" onclick="delitem9()">-</button>
+                </div>
+            </div>
+            <div class="image">
+                <img src="img/ceasar.png" alt="ceasar">
+            </div>
+        </div>
+        
+        <div class="item">
+            <div class="totalprice">
+                <p>تومان</p>
+                <p id="pricetot10">0</p>
+            </div>
+            <div class="detail">
+                <p>سالاد فصل</p>
+                <p class="price">100000 تومان</p>
+                <div class="count">
+                    <button class="btnadd" onclick="additem10()">+</button>
+                    <p id="total10">0</p>
+                    <button class="btnmines" onclick="delitem10()">-</button>
+                </div>
+            </div>
+            <div class="image">
+                <img src="img/salad.png" alt="salad">
+            </div>
+        </div>
+        
     </div>
+    <script src="Q3.js"></script>
 </body>
 </html>

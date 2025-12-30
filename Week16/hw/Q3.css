@@ -12,16 +12,18 @@ body {
     display: flex;
     background-color: rgb(188, 244, 244);
     width: 70%;
-    height: 50px;
+    height: 70px;
     align-items: center;
     justify-content: center;
-    margin-top: 20px;
+    margin-top: 30px;
     margin-bottom: auto;
     margin-left: auto;
     margin-right: auto;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     border-bottom: 1px solid rgb(222, 219, 219);
+    font-family:'vazirmatn';
+    padding-bottom: 10px;
 }
 
 .main {
@@ -34,9 +36,12 @@ body {
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
     flex-wrap: wrap;
+    font-family: 'vazirmatn';
+    font-size: 12px;
+    font-weight: bold;
 }
 
-.item1 {
+.item {
     display: flex;
     width: 600px;
     height: 80px;
@@ -45,24 +50,32 @@ body {
     margin-left: 30px;
     background-color: rgb(255, 255, 255); 
     direction: rtl;
+    justify-content: space-between;
 }
 
-
+.price {
+    font-weight: normal;
+}
 .totalprice {
     display: flex;
     order: 3;
     direction: ltr;
     flex-direction: row;
-    margin: 50px 250px 0 0 ;
+    margin: 50px 170px 0 0 ;
+    flex-shrink: 0;
+    text-align: left;
 }
 
 .totalprice p {
     padding-right: 5px;
+    flex-shrink: 0;
+    text-align: left;
+    min-width: 50px;
 }
 
 .detail {
     order: 2;
-    margin-right: 5px;
+    margin-right: 10px;
     margin-top: 5px;
 }
 
@@ -76,21 +89,29 @@ body {
     width: 20px;
     margin-top: 5px;
 }
-.count img {
-    width: 20px;
-    height: 20px;
+
+.btnadd {
+    background-color: rgb(157, 10, 10);
+    color: white;
+    padding: 1px 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.btnmines {
+    background-color: rgb(157, 10, 10);
+    color: white;
+    padding: 1px 6px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
 }
 
 .count p {
-    padding: 0 5px;
-}
-.image {
-    order: 1;
-    width: 90px;
-    height: 80px;
+    padding: 0 8px;
 }
 
 .image img {
+    order: 1;
     width: 90px;
     height: 80px;  
 }
