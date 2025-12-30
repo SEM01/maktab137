@@ -1,0 +1,96 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: red;
+}
+
+.header {
+    display: flex;
+    background-color: rgb(188, 244, 244);
+    width: 70%;
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-right: auto;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom: 1px solid rgb(222, 219, 219);
+}
+
+.main {
+    display: flex;
+    width: 70%;
+    height: 100%;
+    margin: auto;
+    padding-bottom: 30px;
+    background-color: rgb(188, 244, 244);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    flex-wrap: wrap;
+}
+
+.item1 {
+    display: flex;
+    width: 600px;
+    height: 80px;
+    margin-top: 20px;
+    margin-right: 30px;
+    margin-left: 30px;
+    background-color: rgb(255, 255, 255); 
+    direction: rtl;
+}
+
+
+.totalprice {
+    display: flex;
+    order: 3;
+    direction: ltr;
+    flex-direction: row;
+    margin: 50px 250px 0 0 ;
+}
+
+.totalprice p {
+    padding-right: 5px;
+}
+
+.detail {
+    order: 2;
+    margin-right: 5px;
+    margin-top: 5px;
+}
+
+.detail p {
+    width: 200px;
+    padding-bottom: 5px;
+}
+
+.count {
+    display: flex;
+    width: 20px;
+    margin-top: 5px;
+}
+.count img {
+    width: 20px;
+    height: 20px;
+}
+
+.count p {
+    padding: 0 5px;
+}
+.image {
+    order: 1;
+    width: 90px;
+    height: 80px;
+}
+
+.image img {
+    width: 90px;
+    height: 80px;  
+}
